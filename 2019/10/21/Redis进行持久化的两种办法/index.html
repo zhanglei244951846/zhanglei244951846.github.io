@@ -1,0 +1,691 @@
+<!DOCTYPE html>
+
+
+
+
+
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 3.9.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.4.1">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.4.1">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.4.1">
+  <link rel="mask-icon" href="/images/logo.svg?v=7.4.1" color="#222">
+  <link rel="alternate" href="/atom.xml" title="厽乂彐" type="application/atom+xml">
+
+<link rel="stylesheet" href="/css/main.css?v=7.4.1">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.4.1',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":true,"scrollpercent":true,"onmobile":false},
+    copycode: {"enable":true,"show_result":true,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: './public/search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: '复制',
+      copy_success: '复制成功',
+      copy_failure: '复制失败'
+    },
+    sidebarPadding: 40
+  };
+</script>
+
+  <meta name="description" content="redis提供了两种办法，进行数据持久化，保证数据安全可靠，也就是人们众所周知的RDB和AOF机制 快照（snapshotting） 客户端发送BGSAVE命令来创建一个快照，当调用BGSAVE命令之后，Redis会调用fork来创建一个子进程，该子进程负责将快照写入硬盘，而父进程则继续处理命令请求 客户端发送SAVE来创建一个快照，接到SAVE命令的redis服务器会在快照创建完毕之前不响应任">
+<meta name="keywords" content="Django">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Redis进行持久化的两种办法">
+<meta property="og:url" content="http://laxe.top/2019/10/21/Redis进行持久化的两种办法/index.html">
+<meta property="og:site_name" content="厽乂彐">
+<meta property="og:description" content="redis提供了两种办法，进行数据持久化，保证数据安全可靠，也就是人们众所周知的RDB和AOF机制 快照（snapshotting） 客户端发送BGSAVE命令来创建一个快照，当调用BGSAVE命令之后，Redis会调用fork来创建一个子进程，该子进程负责将快照写入硬盘，而父进程则继续处理命令请求 客户端发送SAVE来创建一个快照，接到SAVE命令的redis服务器会在快照创建完毕之前不响应任">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2019-10-21T03:38:47.961Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Redis进行持久化的两种办法">
+<meta name="twitter:description" content="redis提供了两种办法，进行数据持久化，保证数据安全可靠，也就是人们众所周知的RDB和AOF机制 快照（snapshotting） 客户端发送BGSAVE命令来创建一个快照，当调用BGSAVE命令之后，Redis会调用fork来创建一个子进程，该子进程负责将快照写入硬盘，而父进程则继续处理命令请求 客户端发送SAVE来创建一个快照，接到SAVE命令的redis服务器会在快照创建完毕之前不响应任">
+  <link rel="canonical" href="http://laxe.top/2019/10/21/Redis进行持久化的两种办法/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>Redis进行持久化的两种办法 | 厽乂彐</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">厽乂彐</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">记录生活中的点点滴滴</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+      
+      
+      
+        
+        <li class="menu-item menu-item-home">
+      
+    
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-about">
+      
+    
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-tags">
+      
+    
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-categories">
+      
+    
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-archives">
+      
+    
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a href="javascript:;" class="popup-trigger">
+        
+          <i class="fa fa-search fa-fw"></i>搜索</a>
+      </li>
+    
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="搜索..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+            
+
+          <div id="content" class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://laxe.top/2019/10/21/Redis进行持久化的两种办法/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="张磊">
+      <meta itemprop="description" content="直到这一刻微笑着说话为止，我至少留下了一公升眼泪">
+      <meta itemprop="image" content="/images/1.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="厽乂彐">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">Redis进行持久化的两种办法
+
+          
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              
+                
+              
+
+              <time title="创建时间：2019-10-21 11:33:08 / 修改时间：11:38:47" itemprop="dateCreated datePublished" datetime="2019-10-21T11:33:08+08:00">2019-10-21</time>
+            </span>
+          
+            
+
+            
+          
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+          
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">本文字数：</span>
+              
+              <span>2.5k</span>
+            </span>
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <blockquote>
+<p>redis提供了两种办法，进行数据持久化，保证数据安全可靠，也就是人们众所周知的RDB和AOF机制</p>
+</blockquote><h2 id="快照（snapshotting）"><a href="#快照（snapshotting）" class="headerlink" title="快照（snapshotting）"></a>快照（snapshotting）</h2><ul>
+<li>客户端发送<code>BGSAVE</code>命令来创建一个快照，当调用<code>BGSAVE</code>命令之后，<code>Redis</code>会调用<code>fork</code>来创建一个子进程，该子进程负责将快照写入硬盘，而父进程则继续处理命令请求</li>
+<li>客户端发送<code>SAVE</code>来创建一个快照，接到<code>SAVE</code>命令的<code>redis</code>服务器会在快照创建完毕之前不响应任何其他命令，<code>save</code>命令并不常用，我们通常只会在没有足够内存去执行<code>BGSAVE</code>的情况下，或者无视等待持久化操作所造成的时间浪费问题，也可以使用该命令</li>
+<li>当<code>redis</code>配置了<code>save</code>选项，比如<code>save 60 10000</code>，那么<code>redis</code>最近一次创建快照开始算起，当60秒内有10000次写入这个条件被满足时，<code>redis</code>就会自动触发<code>BGSAVE</code>命令，当用户配置了多个<code>save</code>选项，当任意一个<code>save</code>条件被满足时，<code>redis</code>就会触发一次<code>bgsave</code> 命令</li>
+<li>当<code>redis</code>接收到了<code>shutdown</code>命令以及标准的<code>term</code>信号时，会自动执行<code>save</code>命令，阻塞所有的客户端，不再执行客户端发送的任何命令，并在<code>save</code>命令执行完毕之后关闭服务器</li>
+<li>当<code>redis</code>实现主从同步时，从服务器向主服务器发送<code>sync</code>命令时，此时，如果主服务器目前没有在执行<code>bgsave</code>命令，或并非刚刚执行完<code>bgsave</code>命令，那么此时主服务器就会执行<code>bgsave</code>进行数据持久化备份，</li>
+</ul><a id="more"></a>
+
+<figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1.</span>主服务器会在命令执行完毕之后，向所有从服务器发送快照文件</span><br><span class="line"><span class="number">2.</span>并在发送期间继续记录被执行的写命令</span><br><span class="line"><span class="number">3.</span>从服务器会在接收到新的快照文件之后丢弃所有的旧数据</span><br><span class="line"><span class="number">4.</span>载入新收到的快照文件</span><br><span class="line"><span class="number">5.</span>主服务器发完新的快照文件继续将缓冲区中的写命令同步到从服务器上</span><br><span class="line"><span class="number">6.</span>从服务器完成对快照的载入之后，开始接收命令，并执行新的主服务器发来的缓冲区里的写命令</span><br><span class="line"><span class="number">7.</span>从服务器回归原来的工作模式，继续接收读指令</span><br></pre></td></tr></table></figure>
+
+<h3 id="save选项"><a href="#save选项" class="headerlink" title="save选项"></a>save选项</h3><figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">save <span class="number">900</span> <span class="number">1</span></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>如上的<code>redis</code>配置选项告知<code>redis</code>，它应该根据这个选项提供的两个值来进行<code>bgsave</code>操作</p>
+<p>如果服务器距离上次成功生成快照已超过了900秒，或者在这期间执行了至少一次写操作，那么<code>redis</code> 就会自动开始一次新的<code>BGSAVE</code>操作</p>
+</blockquote>
+<ul>
+<li>快照规则的选定是一个技术活，需要在开发环境即模拟生产环境，避免备份操作频繁，或是过于稀少而导致的资源浪费或含有丢失大量数据的隐患</li>
+</ul>
+<h3 id="数据较大"><a href="#数据较大" class="headerlink" title="数据较大"></a>数据较大</h3><ul>
+<li>对于真实的物理机，<code>vmware</code>或者<code>kvm</code>虚拟机来说，<code>redis</code>进程每占用多一个G的内存，创建<code>bgsave</code>进程所需要的时间就要多增加<strong>10~20毫秒</strong></li>
+<li>对于<code>xen</code>虚拟机来说，同样<strong>一个GB</strong>的<code>redis</code>内存增加，会导致<code>bgsave</code>子进程的时间多<code>200~300</code>毫秒</li>
+<li>虽然<code>bgsave</code>不需要阻塞服务，但是由于开启了子进程，会造成资源抢占而导致<code>redis</code>服务停顿，在一个<code>50GB</code>内存的<code>redis</code>服务上执行<code>bgsave</code>命令，创建子进程需要花费<code>15</code>秒，生成快照需要<code>15~20</code>分钟；而使用<code>save</code>命令只需要<strong>3~5分钟</strong>即可完成快照生成</li>
+</ul>
+<h2 id="AOF持久化"><a href="#AOF持久化" class="headerlink" title="AOF持久化"></a>AOF持久化</h2><blockquote>
+<p><code>aof</code>机制将被执行的写命令写到<code>AOF</code>文件的末尾，以此来记录数据的变化，</p>
+<p><code>redis</code>只需要从头到尾的执行一次<code>AOF</code>文件包含的所有写命令，就可以回复<code>AOF</code>文件所记录的数据集，</p>
+</blockquote>
+<ul>
+<li><code>AOF</code>配置选项，在<code>centos7</code>操作系统下位于<code>redis</code>配置文件的第<code>594</code>行附近，把<code>no</code>改成<code>yes</code></li>
+</ul>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">appendonly</span> <span class="literal">no</span></span><br><span class="line"><span class="comment"># appendonly yes</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><code>AOF</code>频率的设置</li>
+</ul>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">appendfsync</span> everysec <span class="comment"># 每秒进行一次同步，显示的将多个写命令同步到硬盘</span></span><br><span class="line">appendfsync always <span class="comment"># 每个redis写命令都同步的写入磁盘，这样做会严重降低redis的速度</span></span><br><span class="line">appendfsync <span class="literal">no</span> <span class="comment"># 由操作系统决定应该何时进行同步</span></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>注意，<code>appendfsync always</code>选项会让<code>Redis</code>每次只写入一个命令，而不是像其他的<code>appendfsync</code>选项那样一次写入多个命令，这种不断写入的少量数据的做法会在固态硬盘的情况下，引发严重的写入放大，甚至会将固态硬盘的寿命从原来的几年降低为几个月</p>
+</blockquote>
+<blockquote>
+<p>为了兼顾安全和写入性能，用户可以考虑使用<code>appendfsync everysec</code>选项，让<code>redis</code>以每秒一次的频率对<code>AOF</code>文件进行同步；<code>redis</code>每秒同步一次<code>AOF</code>文件时的性能和不使用任何持久化特性时的性能相差无几，这样的持久化策略，即使出现系统崩溃，也只会损失一秒的数据</p>
+</blockquote>
+<blockquote>
+<p>当硬盘忙于执行写入操作时，<code>Redis</code>还会优雅的放慢自己的速度以便适应硬盘的最大写入速度</p>
+</blockquote>
+<h3 id="数据较大-1"><a href="#数据较大-1" class="headerlink" title="数据较大"></a>数据较大</h3><blockquote>
+<p>虽然<code>AOF</code>可以最低使时间丢失的<strong>时间窗口</strong>降低至1秒，但是不断增长的命令记录会写到<code>AOF</code>文件里面，导致<code>AOF</code>的体积越来越大，极端情况下，不断增长的<code>AOF</code>文件甚至会用完所有的磁盘空间，另外，重启的<code>Redis</code>需要重新执行<code>AOF</code>文件所记录的所有命令来还原数据集，如果<code>AOF</code>文件非常大，那么还原操作的时间也会非常漫长</p>
+</blockquote>
+<ul>
+<li>解决这个AOF文件过大的问题，可以向<code>redis</code>发送<code>bgrewriteaof</code>，这个命令会移除在文件中的冗余命令来重写<code>rewrite</code><strong>AOF文件</strong>，使AOF文件的体积变得尽可能的小</li>
+</ul>
+<blockquote>
+<p><code>BGREWRITEAOF</code>指令和<code>BGSAVE</code>工作的原理相似，都需要在后台开辟子进程，由子进程负责对<code>AOF</code>文件进行重写；因为AOF文件重写需要子进程，那么同样会造成开辟子进程造成的性能问题和内存占用问题；</p>
+<p>还需要注意的是，当AOF文件过大，在重写过程以及重写完成之后删除旧有AOF文件，删除一个较大的AOF文件还可能会导致操作系统挂起数秒</p>
+</blockquote>
+<ul>
+<li>设置AOF</li>
+</ul>
+<figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">auto</span>-aof-rewrite-percentage <span class="number">100</span></span><br><span class="line"><span class="built_in">auto</span>-aof-rewrite-min-size <span class="number">64</span>mb</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>当AOF文件此时大于64M，并且AOF文件的体积比上一次重写之后的体积<strong>大于了至少一倍</strong><code>100%</code>，那么<code>redis</code>就会执行<code>BGREWRITEAOF</code>命令</p>
+<p>如果AOF重写频繁，可以适当调整<code>auto-aof-rewrite-percentage</code>选项，可以使<code>redis</code>在AOF体积变得更大的情况下才进行重写</p>
+</blockquote>
+
+    </div>
+
+    
+    
+    
+        
+      
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>张磊</li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://laxe.top/2019/10/21/Redis进行持久化的两种办法/" title="Redis进行持久化的两种办法">http://laxe.top/2019/10/21/Redis进行持久化的两种办法/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-CN" rel="noopener" target="_blank"><i class="fa fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！</li>
+</ul>
+</div>
+
+      
+          <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------------本文结束<i class="fa fa-paw"></i>感谢您的阅读-------------</div>
+    
+</div>
+        
+      
+      <footer class="post-footer">
+          
+            
+          
+          <div class="post-tags">
+            
+              <a href="/tags/Django/" rel="tag"># Django</a>
+            
+          </div>
+        
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+              
+                <a href="/2019/10/21/Redis中的发布者与订阅者/" rel="next" title="Redis中的发布者与订阅者">
+                  <i class="fa fa-chevron-left"></i> Redis中的发布者与订阅者
+                </a>
+              
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+              
+                <a href="/2019/10/21/Redis的键空间、键事件通知系统/" rel="prev" title="Redis的键空间、键事件通知系统">
+                  Redis的键空间、键事件通知系统 <i class="fa fa-chevron-right"></i>
+                </a>
+              
+            </div>
+          </div>
+        
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+        
+        
+        
+        
+      
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#快照（snapshotting）"><span class="nav-text">快照（snapshotting）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#save选项"><span class="nav-text">save选项</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#数据较大"><span class="nav-text">数据较大</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#AOF持久化"><span class="nav-text">AOF持久化</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#数据较大-1"><span class="nav-text">数据较大</span></a></li></ol></li></ol></div>
+        
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image"
+      src="/images/1.jpg"
+      alt="张磊">
+  <p class="site-author-name" itemprop="name">张磊</p>
+  <div class="site-description" itemprop="description">直到这一刻微笑着说话为止，我至少留下了一公升眼泪</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">23</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-tags">
+        
+        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-name">标签</span>
+        
+      </div>
+    
+  </nav>
+</div>
+  <div class="feed-link motion-element">
+    <a href="/atom.xml" rel="alternate">
+      <i class="fa fa-rss"></i>RSS
+    </a>
+  </div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="https://github.com/zhanglei244951846" title="GitHub &rarr; https://github.com/zhanglei244951846" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+    
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="mailto:244951846@qq.com" title="E-Mail &rarr; mailto:244951846@qq.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+    
+  </div>
+  <div class="cc-license motion-element" itemprop="license">
+    
+  
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-CN" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2015 – <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">张磊</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+      <span class="post-meta-item-text">站点总字数：</span>
+    
+    <span title="站点总字数">183k</span>
+</div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+  
+    <span class="post-meta-divider">|</span>
+  
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+    
+  
+  <script color='0,0,255' opacity='0.5' zIndex='-1' count='99' src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  <script src="/lib/anime.min.js?v=3.1.0"></script>
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+<script src="/js/utils.js?v=7.4.1"></script><script src="/js/motion.js?v=7.4.1"></script>
+<script src="/js/schemes/pisces.js?v=7.4.1"></script>
+
+<script src="/js/next-boot.js?v=7.4.1"></script>
+
+  <script defer src="/lib/three/three.min.js"></script>
+    
+    <script defer src="/lib/three/canvas_lines.min.js"></script>
+  
+
+
+  
+
+
+
+
+
+
+
+
+  <script src="/js/local-search.js?v=7.4.1"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+<!-- 页面点击小红心 -->
+<script type="text/javascript" src="/js/clicklove.js"></script>
+</html>

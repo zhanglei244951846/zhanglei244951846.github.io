@@ -257,6 +257,579 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://laxe.top/2019/10/21/Redis常见数据类型及其操作指令/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="张磊">
+      <meta itemprop="description" content="直到这一刻微笑着说话为止，我至少留下了一公升眼泪">
+      <meta itemprop="image" content="/images/1.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="厽乂彐">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+            
+            <a href="/2019/10/21/Redis常见数据类型及其操作指令/" class="post-title-link" itemprop="url">Redis常见数据类型及其操作指令</a>
+          
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              
+                
+              
+
+              <time title="创建时间：2019-10-21 11:37:03 / 修改时间：11:37:56" itemprop="dateCreated datePublished" datetime="2019-10-21T11:37:03+08:00">2019-10-21</time>
+            </span>
+          
+            
+
+            
+          
+
+          
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">本文字数：</span>
+              
+              <span>8k</span>
+            </span>
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="Redis"><a href="#Redis" class="headerlink" title="Redis"></a>Redis</h2><blockquote>
+<p><code>Redis</code>可以存储<strong>键</strong>体与五种不同数据结构类型类型之间的映射</p>
+<p>分别为<code>STRING</code>字符串、<code>LIST</code>列表、<code>SET</code>集合、<code>HASH</code>散列和<code>ZSET</code>有序集合</p>
+</blockquote><ul>
+<li><code>Redis</code>客户端</li>
+</ul><figure class="highlight avrasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">redis-<span class="keyword">cli</span></span><br></pre></td></tr></table></figure><ul>
+<li>如需支持中文展示，可以使用参数</li>
+</ul>
+          <!--noindex-->
+          
+            <div class="post-button">
+              <a class="btn" href="/2019/10/21/Redis常见数据类型及其操作指令/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+          <div class="post-eof"></div>
+        
+      </footer>
+  </article>
+  
+  
+  
+
+    
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://laxe.top/2019/10/21/Redis的数据淘汰策略/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="张磊">
+      <meta itemprop="description" content="直到这一刻微笑着说话为止，我至少留下了一公升眼泪">
+      <meta itemprop="image" content="/images/1.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="厽乂彐">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+            
+            <a href="/2019/10/21/Redis的数据淘汰策略/" class="post-title-link" itemprop="url">Redis的数据淘汰策略</a>
+          
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              
+                
+              
+
+              <time title="创建时间：2019-10-21 11:36:00 / 修改时间：11:36:35" itemprop="dateCreated datePublished" datetime="2019-10-21T11:36:00+08:00">2019-10-21</time>
+            </span>
+          
+            
+
+            
+          
+
+          
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">本文字数：</span>
+              
+              <span>2k</span>
+            </span>
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="Redis数据过期策略"><a href="#Redis数据过期策略" class="headerlink" title="Redis数据过期策略"></a>Redis数据过期策略</h2><blockquote>
+<p>当<code>redis</code>内存不足时，此时就要有响应的策略来保证将一些无用或冷数据从内存中剔除出去；</p>
+</blockquote><h3 id="定时删除"><a href="#定时删除" class="headerlink" title="定时删除"></a>定时删除</h3><ul>
+<li>策略 : 在设置键的过期时间的同时，创建一个定时器，让定时器在键的过期时间来临时，立即执行对键的删除操作</li>
+<li>优点 : 对内存友好，保证过期键会尽可能快地被删除，并释放过期键所占用的内存</li>
+<li>缺点 : 对<code>CPU</code>时间不友好，占用太多<code>CPU</code>时间，影响服务器的响应时间和吞吐量</li>
+</ul>
+          <!--noindex-->
+          
+            <div class="post-button">
+              <a class="btn" href="/2019/10/21/Redis的数据淘汰策略/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+          <div class="post-eof"></div>
+        
+      </footer>
+  </article>
+  
+  
+  
+
+    
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://laxe.top/2019/10/21/Redis的键空间、键事件通知系统/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="张磊">
+      <meta itemprop="description" content="直到这一刻微笑着说话为止，我至少留下了一公升眼泪">
+      <meta itemprop="image" content="/images/1.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="厽乂彐">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+            
+            <a href="/2019/10/21/Redis的键空间、键事件通知系统/" class="post-title-link" itemprop="url">Redis的键空间、键事件通知系统</a>
+          
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              
+                
+              
+
+              <time title="创建时间：2019-10-21 11:34:37 / 修改时间：11:35:27" itemprop="dateCreated datePublished" datetime="2019-10-21T11:34:37+08:00">2019-10-21</time>
+            </span>
+          
+            
+
+            
+          
+
+          
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">本文字数：</span>
+              
+              <span>1.5k</span>
+            </span>
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="键空间事件通知"><a href="#键空间事件通知" class="headerlink" title="键空间事件通知"></a>键空间事件通知</h2><ul>
+<li>在<code>Redis</code>里面有一些事件，比如键<strong>到期</strong>、键被<strong>删除</strong>等。可以通过打开<code>redis</code>键空间事件通知来让 Redis 一旦触发这些事件的时候就往特定的<code>Channel</code>推一条消息</li>
+</ul><h3 id="键事件通知配置"><a href="#键事件通知配置" class="headerlink" title="键事件通知配置"></a>键事件通知配置</h3><ul>
+<li>默认在<code>redis</code>中，键事件通知是不打开的，需要我们手动配置，具体的选项如下，默认他是个空字符串，代表关闭状态</li>
+</ul>
+          <!--noindex-->
+          
+            <div class="post-button">
+              <a class="btn" href="/2019/10/21/Redis的键空间、键事件通知系统/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+          <div class="post-eof"></div>
+        
+      </footer>
+  </article>
+  
+  
+  
+
+    
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://laxe.top/2019/10/21/Redis进行持久化的两种办法/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="张磊">
+      <meta itemprop="description" content="直到这一刻微笑着说话为止，我至少留下了一公升眼泪">
+      <meta itemprop="image" content="/images/1.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="厽乂彐">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+            
+            <a href="/2019/10/21/Redis进行持久化的两种办法/" class="post-title-link" itemprop="url">Redis进行持久化的两种办法</a>
+          
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              
+                
+              
+
+              <time title="创建时间：2019-10-21 11:33:08 / 修改时间：11:38:47" itemprop="dateCreated datePublished" datetime="2019-10-21T11:33:08+08:00">2019-10-21</time>
+            </span>
+          
+            
+
+            
+          
+
+          
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">本文字数：</span>
+              
+              <span>2.5k</span>
+            </span>
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <blockquote>
+<p>redis提供了两种办法，进行数据持久化，保证数据安全可靠，也就是人们众所周知的RDB和AOF机制</p>
+</blockquote><h2 id="快照（snapshotting）"><a href="#快照（snapshotting）" class="headerlink" title="快照（snapshotting）"></a>快照（snapshotting）</h2><ul>
+<li>客户端发送<code>BGSAVE</code>命令来创建一个快照，当调用<code>BGSAVE</code>命令之后，<code>Redis</code>会调用<code>fork</code>来创建一个子进程，该子进程负责将快照写入硬盘，而父进程则继续处理命令请求</li>
+<li>客户端发送<code>SAVE</code>来创建一个快照，接到<code>SAVE</code>命令的<code>redis</code>服务器会在快照创建完毕之前不响应任何其他命令，<code>save</code>命令并不常用，我们通常只会在没有足够内存去执行<code>BGSAVE</code>的情况下，或者无视等待持久化操作所造成的时间浪费问题，也可以使用该命令</li>
+<li>当<code>redis</code>配置了<code>save</code>选项，比如<code>save 60 10000</code>，那么<code>redis</code>最近一次创建快照开始算起，当60秒内有10000次写入这个条件被满足时，<code>redis</code>就会自动触发<code>BGSAVE</code>命令，当用户配置了多个<code>save</code>选项，当任意一个<code>save</code>条件被满足时，<code>redis</code>就会触发一次<code>bgsave</code> 命令</li>
+<li>当<code>redis</code>接收到了<code>shutdown</code>命令以及标准的<code>term</code>信号时，会自动执行<code>save</code>命令，阻塞所有的客户端，不再执行客户端发送的任何命令，并在<code>save</code>命令执行完毕之后关闭服务器</li>
+<li>当<code>redis</code>实现主从同步时，从服务器向主服务器发送<code>sync</code>命令时，此时，如果主服务器目前没有在执行<code>bgsave</code>命令，或并非刚刚执行完<code>bgsave</code>命令，那么此时主服务器就会执行<code>bgsave</code>进行数据持久化备份，</li>
+</ul>
+          <!--noindex-->
+          
+            <div class="post-button">
+              <a class="btn" href="/2019/10/21/Redis进行持久化的两种办法/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+          <div class="post-eof"></div>
+        
+      </footer>
+  </article>
+  
+  
+  
+
+    
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://laxe.top/2019/10/21/Redis中的发布者与订阅者/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="张磊">
+      <meta itemprop="description" content="直到这一刻微笑着说话为止，我至少留下了一公升眼泪">
+      <meta itemprop="image" content="/images/1.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="厽乂彐">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+            
+            <a href="/2019/10/21/Redis中的发布者与订阅者/" class="post-title-link" itemprop="url">Redis中的发布者与订阅者</a>
+          
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              
+                
+              
+
+              <time title="创建时间：2019-10-21 11:30:56 / 修改时间：11:32:36" itemprop="dateCreated datePublished" datetime="2019-10-21T11:30:56+08:00">2019-10-21</time>
+            </span>
+          
+            
+
+            
+          
+
+          
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">本文字数：</span>
+              
+              <span>1.6k</span>
+            </span>
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="发布与订阅"><a href="#发布与订阅" class="headerlink" title="发布与订阅"></a>发布与订阅</h2><blockquote>
+<p>发布和订阅<code>pub/sub</code>，订阅者负责订阅频道，发送者负责像频道发送二进制字符串消息，每当有消息发布到订阅的这个频道，那么所有的订阅者都可以收到这个消息，</p>
+<p>发布订阅也是像是我们生活中的电台，订阅者可以订阅收听多个电台，而发送者可以再任何电台发送消息</p>
+</blockquote>
+          <!--noindex-->
+          
+            <div class="post-button">
+              <a class="btn" href="/2019/10/21/Redis中的发布者与订阅者/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+          <div class="post-eof"></div>
+        
+      </footer>
+  </article>
+  
+  
+  
+
+    
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://laxe.top/2019/10/21/Redis实现分布式锁以及利用乐观锁保证数据安全/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="张磊">
+      <meta itemprop="description" content="直到这一刻微笑着说话为止，我至少留下了一公升眼泪">
+      <meta itemprop="image" content="/images/1.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="厽乂彐">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+            
+            <a href="/2019/10/21/Redis实现分布式锁以及利用乐观锁保证数据安全/" class="post-title-link" itemprop="url">Redis实现分布式锁以及利用乐观锁保证数据安全</a>
+          
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              
+                
+              
+
+              <time title="创建时间：2019-10-21 11:25:16 / 修改时间：11:30:01" itemprop="dateCreated datePublished" datetime="2019-10-21T11:25:16+08:00">2019-10-21</time>
+            </span>
+          
+            
+
+            
+          
+
+          
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">本文字数：</span>
+              
+              <span>5.7k</span>
+            </span>
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="分布式锁"><a href="#分布式锁" class="headerlink" title="分布式锁"></a>分布式锁</h2><blockquote>
+<p>一般来说，对数据进行<strong>加锁</strong>时，程序首先需要通过获取<code>acquire</code>锁来得到对数据操作、排他的权力</p>
+<p>在操作完毕之后，还需要通过<code>release</code>进行锁的释放，以供其他程序使用</p>
+</blockquote><ul>
+<li><code>Redis</code>使用<code>WATCH</code>命令用以代替对数据进行加锁，<code>WATCH</code>只会在数据被其他客户端抢先修改了的情况下通知执行命令的这个客户端（通过<code>WatchError</code>异常），但不会阻止其他客户端对数据的修改，这样的加锁的行为也常称为<strong>乐观锁</strong></li>
+</ul>
+          <!--noindex-->
+          
+            <div class="post-button">
+              <a class="btn" href="/2019/10/21/Redis实现分布式锁以及利用乐观锁保证数据安全/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+          <div class="post-eof"></div>
+        
+      </footer>
+  </article>
+  
+  
+  
+
+    
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://laxe.top/2019/10/21/Vue/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -633,577 +1206,11 @@
   
 
     
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://laxe.top/2019/10/21/Django-Views-视图层/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="张磊">
-      <meta itemprop="description" content="直到这一刻微笑着说话为止，我至少留下了一公升眼泪">
-      <meta itemprop="image" content="/images/1.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="厽乂彐">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-            
-            <a href="/2019/10/21/Django-Views-视图层/" class="post-title-link" itemprop="url">Django-Views-视图层</a>
-          
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              
-                
-              
-
-              <time title="创建时间：2019-10-21 10:17:20 / 修改时间：10:18:09" itemprop="dateCreated datePublished" datetime="2019-10-21T10:17:20+08:00">2019-10-21</time>
-            </span>
-          
-            
-
-            
-          
-
-          
-          <br>
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-file-word-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">本文字数：</span>
-              
-              <span>7.6k</span>
-            </span>
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="视图层"><a href="#视图层" class="headerlink" title="视图层"></a>视图层</h2><blockquote>
-<p>视图函数一般用来接收一个<code>Web</code>请求<code>HttpRequest</code>，之后返回一个Web响应<code>HttpResponse</code></p>
-</blockquote><h3 id="HttpRequest"><a href="#HttpRequest" class="headerlink" title="HttpRequest"></a>HttpRequest</h3><blockquote>
-<p>一个视图函数用来响应用户的<code>Request</code>请求，每个视图函数默认的第一个位置参数<code>request</code>用来接收用户发起请求的<code>HttpRequest</code>信息。</p>
-<p>视图函数的返回值，为一个<code>HttpResponse</code>值，包括我们要返回给用户的<code>HTML</code>页面或者字符串等等，以及对应的头部字段信息</p>
-</blockquote>
-          <!--noindex-->
-          
-            <div class="post-button">
-              <a class="btn" href="/2019/10/21/Django-Views-视图层/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-          <div class="post-eof"></div>
-        
-      </footer>
-  </article>
-  
-  
-  
-
-    
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://laxe.top/2019/10/21/Django-Models-模型层/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="张磊">
-      <meta itemprop="description" content="直到这一刻微笑着说话为止，我至少留下了一公升眼泪">
-      <meta itemprop="image" content="/images/1.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="厽乂彐">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-            
-            <a href="/2019/10/21/Django-Models-模型层/" class="post-title-link" itemprop="url">Django-Models-模型层</a>
-          
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              
-                
-              
-
-              <time title="创建时间：2019-10-21 10:12:43 / 修改时间：10:13:34" itemprop="dateCreated datePublished" datetime="2019-10-21T10:12:43+08:00">2019-10-21</time>
-            </span>
-          
-            
-
-            
-          
-
-          
-          <br>
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-file-word-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">本文字数：</span>
-              
-              <span>15k</span>
-            </span>
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="模型层"><a href="#模型层" class="headerlink" title="模型层"></a>模型层</h2><blockquote>
-<p>该层开发的首要任务就是定义模型类以及属性</p>
-<p>每个模型都可以被映射为数据库中的一个数据表，而类属性被映射为为数据字段</p>
-</blockquote><h3 id="配置Mysql数据库"><a href="#配置Mysql数据库" class="headerlink" title="配置Mysql数据库"></a>配置Mysql数据库</h3><blockquote>
-<p>在确保<code>mysql</code>数据库可以连接使用的情况下；</p>
-<p>首先在数据库中创建专为<code>django</code>使用的库<code>django_data</code></p>
-</blockquote>
-          <!--noindex-->
-          
-            <div class="post-button">
-              <a class="btn" href="/2019/10/21/Django-Models-模型层/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-          <div class="post-eof"></div>
-        
-      </footer>
-  </article>
-  
-  
-  
-
-    
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://laxe.top/2019/10/21/Cookie和Session/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="张磊">
-      <meta itemprop="description" content="直到这一刻微笑着说话为止，我至少留下了一公升眼泪">
-      <meta itemprop="image" content="/images/1.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="厽乂彐">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-            
-            <a href="/2019/10/21/Cookie和Session/" class="post-title-link" itemprop="url">Cookie和Session</a>
-          
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              
-                
-              
-
-              <time title="创建时间：2019-10-21 10:11:28 / 修改时间：10:12:24" itemprop="dateCreated datePublished" datetime="2019-10-21T10:11:28+08:00">2019-10-21</time>
-            </span>
-          
-            
-
-            
-          
-
-          
-          <br>
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-file-word-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">本文字数：</span>
-              
-              <span>6.9k</span>
-            </span>
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="Cookie和Session"><a href="#Cookie和Session" class="headerlink" title="Cookie和Session"></a>Cookie和Session</h2><blockquote>
-<p><code>Cookie</code>及<code>Session</code>一直以来都是Web开发中非常关键的一环，因为<code>HTTP</code>协议本身为无状态，每一次请求之间没有任何状态信息保持，往往我们的Web服务无法在客户端访问过程中得知用户的一些状态信息，比如是否登录等等；那么这里通过引入<code>Cookie</code>或者<code>Seesion</code>来解决这个问题。</p>
-</blockquote>
-          <!--noindex-->
-          
-            <div class="post-button">
-              <a class="btn" href="/2019/10/21/Cookie和Session/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-          <div class="post-eof"></div>
-        
-      </footer>
-  </article>
-  
-  
-  
-
-    
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://laxe.top/2019/10/21/Django的消息框架(message)与Django分页组件(paginator)/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="张磊">
-      <meta itemprop="description" content="直到这一刻微笑着说话为止，我至少留下了一公升眼泪">
-      <meta itemprop="image" content="/images/1.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="厽乂彐">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-            
-            <a href="/2019/10/21/Django的消息框架(message)与Django分页组件(paginator)/" class="post-title-link" itemprop="url">Django的消息框架(message)与Django分页组件(paginator)</a>
-          
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              
-                
-              
-
-              <time title="创建时间：2019-10-21 10:10:07 / 修改时间：10:11:00" itemprop="dateCreated datePublished" datetime="2019-10-21T10:10:07+08:00">2019-10-21</time>
-            </span>
-          
-            
-
-            
-          
-
-          
-          <br>
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-file-word-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">本文字数：</span>
-              
-              <span>2.6k</span>
-            </span>
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="Messages消息框架"><a href="#Messages消息框架" class="headerlink" title="Messages消息框架"></a>Messages消息框架</h2><blockquote>
-<p>在网页应用中，你经常需要在处理完表单或其它类型的用户输入后。显示一个通知消息（也叫做<code>flash message</code>给用户</p>
-<p>对于这个功能，<code>Django</code>提供基于<code>Cookie</code> 和会话的消息，无论是匿名用户还是认证的用户。</p>
-<p>其消息框架允许你临时将消息存储在请求中，并在接下来的请求（通常就是下一个请求）中提取它们并显示。每个消息都带有一个特定<code>level</code> 标签，表示其优先级（例如<code>info</code>、<code>warning</code> 或<code>error</code>）</p>
-</blockquote>
-          <!--noindex-->
-          
-            <div class="post-button">
-              <a class="btn" href="/2019/10/21/Django的消息框架(message)与Django分页组件(paginator)/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-          <div class="post-eof"></div>
-        
-      </footer>
-  </article>
-  
-  
-  
-
-    
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://laxe.top/2019/10/21/Django-Forms-表单层/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="张磊">
-      <meta itemprop="description" content="直到这一刻微笑着说话为止，我至少留下了一公升眼泪">
-      <meta itemprop="image" content="/images/1.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="厽乂彐">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-            
-            <a href="/2019/10/21/Django-Forms-表单层/" class="post-title-link" itemprop="url">Django-Forms-表单层</a>
-          
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              
-                
-              
-
-              <time title="创建时间：2019-10-21 10:09:00 / 修改时间：10:09:48" itemprop="dateCreated datePublished" datetime="2019-10-21T10:09:00+08:00">2019-10-21</time>
-            </span>
-          
-            
-
-            
-          
-
-          
-          <br>
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-file-word-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">本文字数：</span>
-              
-              <span>15k</span>
-            </span>
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="Forms"><a href="#Forms" class="headerlink" title="Forms"></a>Forms</h2><blockquote>
-<p><code>django</code>提供了一整套健全的机制来帮助我们自动创建对应<code>HTML</code>中的表单，类似序列化器</p>
-</blockquote><blockquote>
-<p>开发者可以方便的使用已经设定好的一系列字段进行表单的设计</p>
-<p>可以在某个<code>app</code>下面新建一个<code>forms.py</code>文件，在这个文件编写<code>django</code>自带表单类的编写</p>
-<p>比如像下面这样</p>
-</blockquote>
-          <!--noindex-->
-          
-            <div class="post-button">
-              <a class="btn" href="/2019/10/21/Django-Forms-表单层/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-          <div class="post-eof"></div>
-        
-      </footer>
-  </article>
-  
-  
-  
-
-    
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://laxe.top/2019/10/21/Django的CBV类视图/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="张磊">
-      <meta itemprop="description" content="直到这一刻微笑着说话为止，我至少留下了一公升眼泪">
-      <meta itemprop="image" content="/images/1.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="厽乂彐">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-            
-            <a href="/2019/10/21/Django的CBV类视图/" class="post-title-link" itemprop="url">Django的CBV类视图</a>
-          
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              
-                
-              
-
-              <time title="创建时间：2019-10-21 10:07:49 / 修改时间：10:08:32" itemprop="dateCreated datePublished" datetime="2019-10-21T10:07:49+08:00">2019-10-21</time>
-            </span>
-          
-            
-
-            
-          
-
-          
-          <br>
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-file-word-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">本文字数：</span>
-              
-              <span>3k</span>
-            </span>
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="CBV"><a href="#CBV" class="headerlink" title="CBV"></a>CBV</h2><blockquote>
-<p><strong>CBV（class base views）</strong> 就是在视图里使用类处理请求</p>
-<p>之前的代码中，我们的视图函数都是通过函数来进行<code>request</code>的响应以及<code>response</code>的返回，并且通常我们需要判断的请求方式<code>get</code>或是<code>post</code>都需要我们在代码中通过<code>if</code>进行条件判断，这样的视图功能编写就叫做<code>FBV</code></p>
-</blockquote>
-          <!--noindex-->
-          
-            <div class="post-button">
-              <a class="btn" href="/2019/10/21/Django的CBV类视图/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-          <div class="post-eof"></div>
-        
-      </footer>
-  </article>
-  
-  
-  
-
-    
   </div>
 
   
   <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
 
 
@@ -1251,7 +1258,7 @@
         
           <a href="/archives/">
         
-          <span class="site-state-item-count">17</span>
+          <span class="site-state-item-count">23</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -1327,7 +1334,7 @@
     </span>
       <span class="post-meta-item-text">站点总字数：</span>
     
-    <span title="站点总字数">161k</span>
+    <span title="站点总字数">183k</span>
 </div>
 
         
