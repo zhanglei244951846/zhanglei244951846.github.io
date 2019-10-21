@@ -56,18 +56,18 @@
   };
 </script>
 
-  <meta name="description" content="缓存 Django 是动态Web后台框架，需要实时生成用户访问的页面，进行多次的数据库操作，但是多次的数据库访问操作对于整个Web系统来说，会影响效率，尤其是当访问量增大时，数据库的压力也会越来越大。 相对于磁盘及内存操作，数据库的访问操作付出的成本要大的多  浏览器第一次请求时，cache会缓存单个变量或整个网页等内容到硬盘或者内存中，同时设置response头部 当浏览器再次发起请求时，会与缓">
+  <meta name="description" content="缓存 Django 是动态Web后台框架，需要实时生成用户访问的页面，进行多次的数据库操作，但是多次的数据库访问操作对于整个Web系统来说，会影响效率，尤其是当访问量增大时，数据库的压力也会越来越大。 相对于磁盘及内存操作，数据库的访问操作付出的成本要大的多">
 <meta name="keywords" content="Django">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Django缓存系统">
 <meta property="og:url" content="http://laxe.top/2019/10/21/Django缓存系统/index.html">
 <meta property="og:site_name" content="厽乂彐">
-<meta property="og:description" content="缓存 Django 是动态Web后台框架，需要实时生成用户访问的页面，进行多次的数据库操作，但是多次的数据库访问操作对于整个Web系统来说，会影响效率，尤其是当访问量增大时，数据库的压力也会越来越大。 相对于磁盘及内存操作，数据库的访问操作付出的成本要大的多  浏览器第一次请求时，cache会缓存单个变量或整个网页等内容到硬盘或者内存中，同时设置response头部 当浏览器再次发起请求时，会与缓">
+<meta property="og:description" content="缓存 Django 是动态Web后台框架，需要实时生成用户访问的页面，进行多次的数据库操作，但是多次的数据库访问操作对于整个Web系统来说，会影响效率，尤其是当访问量增大时，数据库的压力也会越来越大。 相对于磁盘及内存操作，数据库的访问操作付出的成本要大的多">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:updated_time" content="2019-10-21T01:59:26.327Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Django缓存系统">
-<meta name="twitter:description" content="缓存 Django 是动态Web后台框架，需要实时生成用户访问的页面，进行多次的数据库操作，但是多次的数据库访问操作对于整个Web系统来说，会影响效率，尤其是当访问量增大时，数据库的压力也会越来越大。 相对于磁盘及内存操作，数据库的访问操作付出的成本要大的多  浏览器第一次请求时，cache会缓存单个变量或整个网页等内容到硬盘或者内存中，同时设置response头部 当浏览器再次发起请求时，会与缓">
+<meta name="twitter:description" content="缓存 Django 是动态Web后台框架，需要实时生成用户访问的页面，进行多次的数据库操作，但是多次的数据库访问操作对于整个Web系统来说，会影响效率，尤其是当访问量增大时，数据库的压力也会越来越大。 相对于磁盘及内存操作，数据库的访问操作付出的成本要大的多">
   <link rel="canonical" href="http://laxe.top/2019/10/21/Django缓存系统/">
 
 
@@ -328,15 +328,15 @@
         <h2 id="缓存"><a href="#缓存" class="headerlink" title="缓存"></a>缓存</h2><blockquote>
 <p><code>Django</code> 是动态<code>Web</code>后台框架，需要实时生成用户访问的页面，进行多次的数据库操作，但是多次的数据库访问操作对于整个<code>Web</code>系统来说，会影响效率，尤其是当访问量增大时，数据库的压力也会越来越大。</p>
 <p>相对于磁盘及内存操作，数据库的访问操作付出的成本要大的多</p>
-</blockquote><blockquote>
-<p>浏览器第一次请求时，<code>cache</code>会缓存单个变量或整个网页等内容到硬盘或者内存中，同时设置<code>response</code>头部</p>
-<p>当浏览器再次发起请求时，会与缓存中的过期时间相比较，如果缓存时间比较新，则会重新请求数据，并缓存起来然后返回<code>response</code>给客户端，如果缓存没有过期，则直接从缓存中提取数据，返回给<code>response</code>给客户端</p>
 </blockquote><a id="more"></a><!-- # Django缓存系统
 
  发表于 1990-01-14 |  分类于 [Django](https://lienze.tech/blog/categories/Django/) -->
 
 
-
+<blockquote>
+<p>浏览器第一次请求时，<code>cache</code>会缓存单个变量或整个网页等内容到硬盘或者内存中，同时设置<code>response</code>头部</p>
+<p>当浏览器再次发起请求时，会与缓存中的过期时间相比较，如果缓存时间比较新，则会重新请求数据，并缓存起来然后返回<code>response</code>给客户端，如果缓存没有过期，则直接从缓存中提取数据，返回给<code>response</code>给客户端</p>
+</blockquote>
 <h3 id="Cache-Control"><a href="#Cache-Control" class="headerlink" title="Cache-Control"></a>Cache-Control</h3><blockquote>
 <figure class="highlight autohotkey"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&gt; HTTP`协议头`Cache-Control`，`Cache-Control`与`Expires`的作用一致，都是指明当前资源的有效期，控制浏览器是否直接从浏览器缓存取数据还是重新发请求到服务器取数据。只不过`Cache-Control`的选择更多，设置更细致，如果同时设置的话，其优先级高于`Expires</span><br><span class="line">&gt;</span><br></pre></td></tr></table></figure>
 </blockquote>
@@ -576,7 +576,7 @@
         
           <a href="/archives/">
         
-          <span class="site-state-item-count">14</span>
+          <span class="site-state-item-count">13</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -585,7 +585,7 @@
       
       <div class="site-state-item site-state-tags">
         
-        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-count">1</span>
         <span class="site-state-item-name">标签</span>
         
       </div>
@@ -652,7 +652,7 @@
     </span>
       <span class="post-meta-item-text">站点总字数：</span>
     
-    <span title="站点总字数">105k</span>
+    <span title="站点总字数">104k</span>
 </div>
 
         

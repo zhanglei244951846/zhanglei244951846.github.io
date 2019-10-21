@@ -56,18 +56,18 @@
   };
 </script>
 
-  <meta name="description" content="CBV CBV（class base views） 就是在视图里使用类处理请求 之前的代码中，我们的视图函数都是通过函数来进行request的响应以及response的返回，并且通常我们需要判断的请求方式get或是post都需要我们在代码中通过if进行条件判断，这样的视图功能编写就叫做FBV  但现在在django中还提供了一种方式叫做CBV，在类中编写视图功能， 并且将传统的get、post判断">
+  <meta name="description" content="CBV CBV（class base views） 就是在视图里使用类处理请求 之前的代码中，我们的视图函数都是通过函数来进行request的响应以及response的返回，并且通常我们需要判断的请求方式get或是post都需要我们在代码中通过if进行条件判断，这样的视图功能编写就叫做FBV">
 <meta name="keywords" content="Django">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Django的CBV类视图">
 <meta property="og:url" content="http://laxe.top/2019/10/21/Django的CBV类视图/index.html">
 <meta property="og:site_name" content="厽乂彐">
-<meta property="og:description" content="CBV CBV（class base views） 就是在视图里使用类处理请求 之前的代码中，我们的视图函数都是通过函数来进行request的响应以及response的返回，并且通常我们需要判断的请求方式get或是post都需要我们在代码中通过if进行条件判断，这样的视图功能编写就叫做FBV  但现在在django中还提供了一种方式叫做CBV，在类中编写视图功能， 并且将传统的get、post判断">
+<meta property="og:description" content="CBV CBV（class base views） 就是在视图里使用类处理请求 之前的代码中，我们的视图函数都是通过函数来进行request的响应以及response的返回，并且通常我们需要判断的请求方式get或是post都需要我们在代码中通过if进行条件判断，这样的视图功能编写就叫做FBV">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:updated_time" content="2019-10-21T02:08:32.370Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Django的CBV类视图">
-<meta name="twitter:description" content="CBV CBV（class base views） 就是在视图里使用类处理请求 之前的代码中，我们的视图函数都是通过函数来进行request的响应以及response的返回，并且通常我们需要判断的请求方式get或是post都需要我们在代码中通过if进行条件判断，这样的视图功能编写就叫做FBV  但现在在django中还提供了一种方式叫做CBV，在类中编写视图功能， 并且将传统的get、post判断">
+<meta name="twitter:description" content="CBV CBV（class base views） 就是在视图里使用类处理请求 之前的代码中，我们的视图函数都是通过函数来进行request的响应以及response的返回，并且通常我们需要判断的请求方式get或是post都需要我们在代码中通过if进行条件判断，这样的视图功能编写就叫做FBV">
   <link rel="canonical" href="http://laxe.top/2019/10/21/Django的CBV类视图/">
 
 
@@ -328,14 +328,14 @@
         <h2 id="CBV"><a href="#CBV" class="headerlink" title="CBV"></a>CBV</h2><blockquote>
 <p><strong>CBV（class base views）</strong> 就是在视图里使用类处理请求</p>
 <p>之前的代码中，我们的视图函数都是通过函数来进行<code>request</code>的响应以及<code>response</code>的返回，并且通常我们需要判断的请求方式<code>get</code>或是<code>post</code>都需要我们在代码中通过<code>if</code>进行条件判断，这样的视图功能编写就叫做<code>FBV</code></p>
-</blockquote><blockquote>
-<p>但现在在<code>django</code>中还提供了一种方式叫做<code>CBV</code>，在类中编写视图功能， 并且将传统的<code>get</code>、<code>post</code>判断设置为了类中函数，这样当用户发起不同的请求，会自动进入到对应的类中函数上，像是下面这样</p>
 </blockquote><a id="more"></a><!-- # Django的CBV类视图
 
  发表于 1990-01-09 |  分类于 [Django](https://lienze.tech/blog/categories/Django/) -->
 
 
-
+<blockquote>
+<p>但现在在<code>django</code>中还提供了一种方式叫做<code>CBV</code>，在类中编写视图功能， 并且将传统的<code>get</code>、<code>post</code>判断设置为了类中函数，这样当用户发起不同的请求，会自动进入到对应的类中函数上，像是下面这样</p>
+</blockquote>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> django.views <span class="keyword">import</span> View</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ArticleView</span><span class="params">(View)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">get</span><span class="params">(self,request)</span>:</span></span><br><span class="line">        <span class="keyword">raise</span> Http404</span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">post</span><span class="params">(self,request)</span>:</span></span><br><span class="line">        <span class="keyword">if</span> request.is_ajax():</span><br><span class="line">            id_ = request.POST.get(<span class="string">'id_'</span>)</span><br><span class="line">            result = models.Article.objects.get(id=id_).content</span><br><span class="line">            data = result.replace(<span class="string">'\r\n'</span>,<span class="string">'&lt;br&gt;'</span>) </span><br><span class="line">            <span class="keyword">return</span> HttpResponse(json.dumps(data,ensure_ascii=<span class="literal">False</span>) )</span><br><span class="line">       	<span class="keyword">raise</span> Http404</span><br></pre></td></tr></table></figure>
 
 <blockquote>
@@ -510,7 +510,7 @@
         
           <a href="/archives/">
         
-          <span class="site-state-item-count">14</span>
+          <span class="site-state-item-count">13</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -519,7 +519,7 @@
       
       <div class="site-state-item site-state-tags">
         
-        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-count">1</span>
         <span class="site-state-item-name">标签</span>
         
       </div>
@@ -586,7 +586,7 @@
     </span>
       <span class="post-meta-item-text">站点总字数：</span>
     
-    <span title="站点总字数">105k</span>
+    <span title="站点总字数">104k</span>
 </div>
 
         

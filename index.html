@@ -417,7 +417,7 @@
 </blockquote><h3 id="配置Mysql数据库"><a href="#配置Mysql数据库" class="headerlink" title="配置Mysql数据库"></a>配置Mysql数据库</h3><blockquote>
 <p>在确保<code>mysql</code>数据库可以连接使用的情况下；</p>
 <p>首先在数据库中创建专为<code>django</code>使用的库<code>django_data</code></p>
-</blockquote><figure class="highlight n1ql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">create</span> <span class="keyword">database</span> django_data;</span><br></pre></td></tr></table></figure>
+</blockquote>
           <!--noindex-->
           
             <div class="post-button">
@@ -699,7 +699,7 @@
 <p>开发者可以方便的使用已经设定好的一系列字段进行表单的设计</p>
 <p>可以在某个<code>app</code>下面新建一个<code>forms.py</code>文件，在这个文件编写<code>django</code>自带表单类的编写</p>
 <p>比如像下面这样</p>
-</blockquote><figure class="highlight haskell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="title">from</span> django <span class="keyword">import</span> forms</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="type">TestForm</span>(<span class="title">forms</span>.<span class="type">Form</span>):</span></span><br><span class="line"><span class="class">	name = forms.<span class="type">CharField</span>(<span class="title">label</span>='名字:',<span class="title">max_length</span>=100)</span></span><br></pre></td></tr></table></figure>
+</blockquote>
           <!--noindex-->
           
             <div class="post-button">
@@ -792,8 +792,6 @@
           <h2 id="CBV"><a href="#CBV" class="headerlink" title="CBV"></a>CBV</h2><blockquote>
 <p><strong>CBV（class base views）</strong> 就是在视图里使用类处理请求</p>
 <p>之前的代码中，我们的视图函数都是通过函数来进行<code>request</code>的响应以及<code>response</code>的返回，并且通常我们需要判断的请求方式<code>get</code>或是<code>post</code>都需要我们在代码中通过<code>if</code>进行条件判断，这样的视图功能编写就叫做<code>FBV</code></p>
-</blockquote><blockquote>
-<p>但现在在<code>django</code>中还提供了一种方式叫做<code>CBV</code>，在类中编写视图功能， 并且将传统的<code>get</code>、<code>post</code>判断设置为了类中函数，这样当用户发起不同的请求，会自动进入到对应的类中函数上，像是下面这样</p>
 </blockquote>
           <!--noindex-->
           
@@ -888,7 +886,7 @@
 <p><code>ajax</code>可以使当前浏览器不需要整个重新加载，只是局部刷新，给用户的体验良好，也因为只是刷新局部页面，相对而言效率更高一些</p>
 <p>同步交互：客户端发出一个请求后，需要等待服务器相应结束后，才可以发起第二个请求</p>
 <p>异步交互：客户端发出一个请求后，无需等待该次服务器的相应，即可发起第二个请求</p>
-</blockquote><h3 id="json数据类型"><a href="#json数据类型" class="headerlink" title="json数据类型"></a>json数据类型</h3>
+</blockquote>
           <!--noindex-->
           
             <div class="post-button">
@@ -1266,7 +1264,7 @@
         
           <a href="/archives/">
         
-          <span class="site-state-item-count">14</span>
+          <span class="site-state-item-count">13</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -1275,7 +1273,7 @@
       
       <div class="site-state-item site-state-tags">
         
-        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-count">1</span>
         <span class="site-state-item-name">标签</span>
         
       </div>
@@ -1342,7 +1340,7 @@
     </span>
       <span class="post-meta-item-text">站点总字数：</span>
     
-    <span title="站点总字数">105k</span>
+    <span title="站点总字数">104k</span>
 </div>
 
         

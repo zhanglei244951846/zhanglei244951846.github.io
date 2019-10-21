@@ -56,18 +56,18 @@
   };
 </script>
 
-  <meta name="description" content="管理员 Django-admin界面是框架为我们提供的Web-APP的管理工具 在之前的练习中，我们已经多次使用它进行APP中表的DML语句操作 接下来，我们可以继续来学习，如何将Admin界面进行优化扩展，更加方便我们后台管理 管理员注册设置 在admin界面中，我们可以通过继承admin.ModelAdmin类进行自定义admin类的编写，用作控制展示后台所显示的数据，以及排序规则等等属性，基">
+  <meta name="description" content="管理员 Django-admin界面是框架为我们提供的Web-APP的管理工具 在之前的练习中，我们已经多次使用它进行APP中表的DML语句操作 接下来，我们可以继续来学习，如何将Admin界面进行优化扩展，更加方便我们后台管理">
 <meta name="keywords" content="Django">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Django中的Admin组件">
 <meta property="og:url" content="http://laxe.top/2019/10/21/Django中的Admin组件/index.html">
 <meta property="og:site_name" content="厽乂彐">
-<meta property="og:description" content="管理员 Django-admin界面是框架为我们提供的Web-APP的管理工具 在之前的练习中，我们已经多次使用它进行APP中表的DML语句操作 接下来，我们可以继续来学习，如何将Admin界面进行优化扩展，更加方便我们后台管理 管理员注册设置 在admin界面中，我们可以通过继承admin.ModelAdmin类进行自定义admin类的编写，用作控制展示后台所显示的数据，以及排序规则等等属性，基">
+<meta property="og:description" content="管理员 Django-admin界面是框架为我们提供的Web-APP的管理工具 在之前的练习中，我们已经多次使用它进行APP中表的DML语句操作 接下来，我们可以继续来学习，如何将Admin界面进行优化扩展，更加方便我们后台管理">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:updated_time" content="2019-10-21T01:57:16.741Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Django中的Admin组件">
-<meta name="twitter:description" content="管理员 Django-admin界面是框架为我们提供的Web-APP的管理工具 在之前的练习中，我们已经多次使用它进行APP中表的DML语句操作 接下来，我们可以继续来学习，如何将Admin界面进行优化扩展，更加方便我们后台管理 管理员注册设置 在admin界面中，我们可以通过继承admin.ModelAdmin类进行自定义admin类的编写，用作控制展示后台所显示的数据，以及排序规则等等属性，基">
+<meta name="twitter:description" content="管理员 Django-admin界面是框架为我们提供的Web-APP的管理工具 在之前的练习中，我们已经多次使用它进行APP中表的DML语句操作 接下来，我们可以继续来学习，如何将Admin界面进行优化扩展，更加方便我们后台管理">
   <link rel="canonical" href="http://laxe.top/2019/10/21/Django中的Admin组件/">
 
 
@@ -329,10 +329,10 @@
 <p><code>Django-admin</code>界面是框架为我们提供的<code>Web-APP</code>的管理工具</p>
 <p>在之前的练习中，我们已经多次使用它进行<code>APP</code>中表的<code>DML</code>语句操作</p>
 <p>接下来，我们可以继续来学习，如何将<code>Admin</code>界面进行优化扩展，更加方便我们后台管理</p>
-</blockquote><h3 id="管理员注册设置"><a href="#管理员注册设置" class="headerlink" title="管理员注册设置"></a>管理员注册设置</h3><blockquote>
-<p>在<code>admin</code>界面中，我们可以通过继承<code>admin.ModelAdmin</code>类进行自定义<code>admin</code>类的编写，用作控制展示后台所显示的数据，以及排序规则等等属性，基本语法像是下面这样</p>
 </blockquote><a id="more"></a>
-
+<h3 id="管理员注册设置"><a href="#管理员注册设置" class="headerlink" title="管理员注册设置"></a>管理员注册设置</h3><blockquote>
+<p>在<code>admin</code>界面中，我们可以通过继承<code>admin.ModelAdmin</code>类进行自定义<code>admin</code>类的编写，用作控制展示后台所显示的数据，以及排序规则等等属性，基本语法像是下面这样</p>
+</blockquote>
 <figure class="highlight flix"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">＃models.py </span><br><span class="line">类 用户（models.Model）：</span><br><span class="line"> 	名称= models.CharField（max_length = <span class="number">20</span>）</span><br><span class="line">    age = models.IntegerField （）<span class="function"><span class="keyword">def</span> <span class="title">__str__</span> <span class="title">（self）：返回</span> <span class="title">self</span>.<span class="title">name</span></span></span><br><span class="line"><span class="function">     </span></span><br><span class="line"><span class="function">        </span></span><br><span class="line"><span class="function"><span class="title">＃admin</span>.<span class="title">py</span> </span></span><br><span class="line"><span class="function"><span class="title">类</span> <span class="title">UserAdmin</span> <span class="title">（admin</span>.<span class="title">ModelAdmin）：</span></span></span><br><span class="line"><span class="function">     <span class="title">字段=（</span>'<span class="title">name</span>'<span class="title">，</span>'<span class="title">age</span>'<span class="title">）＃控制管理界面模型类展示位置</span> <span class="title">admin</span>.<span class="title">site</span>.<span class="title">register（User，UserAdmin）</span></span></span><br></pre></td></tr></table></figure>
 
 <h4 id="常用的"><a href="#常用的" class="headerlink" title="常用的"></a>常用的</h4><ul>
@@ -807,7 +807,7 @@
         
           <a href="/archives/">
         
-          <span class="site-state-item-count">14</span>
+          <span class="site-state-item-count">13</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -816,7 +816,7 @@
       
       <div class="site-state-item site-state-tags">
         
-        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-count">1</span>
         <span class="site-state-item-name">标签</span>
         
       </div>
@@ -883,7 +883,7 @@
     </span>
       <span class="post-meta-item-text">站点总字数：</span>
     
-    <span title="站点总字数">105k</span>
+    <span title="站点总字数">104k</span>
 </div>
 
         
