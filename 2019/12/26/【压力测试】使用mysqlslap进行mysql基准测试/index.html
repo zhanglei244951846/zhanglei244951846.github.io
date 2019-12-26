@@ -1,0 +1,678 @@
+<!DOCTYPE html>
+
+
+
+
+
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 3.9.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.4.1">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.4.1">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.4.1">
+  <link rel="mask-icon" href="/images/logo.svg?v=7.4.1" color="#222">
+  <link rel="alternate" href="/atom.xml" title="厽乂彐" type="application/atom+xml">
+
+<link rel="stylesheet" href="/css/main.css?v=7.4.1">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.4.1',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":true,"scrollpercent":true,"onmobile":false},
+    copycode: {"enable":true,"show_result":true,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: './public/search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: '复制',
+      copy_success: '复制成功',
+      copy_failure: '复制失败'
+    },
+    sidebarPadding: 40
+  };
+</script>
+
+  <meta name="description" content="为什么要进行压力测试？PS：在运维工作中，压力测试是一项很重要的工作。比如在一个网站上线之前，能承受多大访问量、在大访问量情况下性能怎样，这些数据指标好坏将会直接影响用户体验。但是，在压力测试中存在一个共性，那就是压力测试的结果与实际负载结果不会完全相同，就算压力测试工作做的再好，也不能保证100%和线上性能指标相同。面对这些问题，我们只能尽量去想方设法去模拟。所以，压力测试非常有必要，有了这些数">
+<meta name="keywords" content="MySQL">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【压力测试】使用mysqlslap进行mysql基准测试">
+<meta property="og:url" content="http://laxe.top/2019/12/26/【压力测试】使用mysqlslap进行mysql基准测试/index.html">
+<meta property="og:site_name" content="厽乂彐">
+<meta property="og:description" content="为什么要进行压力测试？PS：在运维工作中，压力测试是一项很重要的工作。比如在一个网站上线之前，能承受多大访问量、在大访问量情况下性能怎样，这些数据指标好坏将会直接影响用户体验。但是，在压力测试中存在一个共性，那就是压力测试的结果与实际负载结果不会完全相同，就算压力测试工作做的再好，也不能保证100%和线上性能指标相同。面对这些问题，我们只能尽量去想方设法去模拟。所以，压力测试非常有必要，有了这些数">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2019-12-26T00:28:54.723Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="【压力测试】使用mysqlslap进行mysql基准测试">
+<meta name="twitter:description" content="为什么要进行压力测试？PS：在运维工作中，压力测试是一项很重要的工作。比如在一个网站上线之前，能承受多大访问量、在大访问量情况下性能怎样，这些数据指标好坏将会直接影响用户体验。但是，在压力测试中存在一个共性，那就是压力测试的结果与实际负载结果不会完全相同，就算压力测试工作做的再好，也不能保证100%和线上性能指标相同。面对这些问题，我们只能尽量去想方设法去模拟。所以，压力测试非常有必要，有了这些数">
+  <link rel="canonical" href="http://laxe.top/2019/12/26/【压力测试】使用mysqlslap进行mysql基准测试/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>【压力测试】使用mysqlslap进行mysql基准测试 | 厽乂彐</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">厽乂彐</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">记录生活中的点点滴滴</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+      
+      
+      
+        
+        <li class="menu-item menu-item-home">
+      
+    
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-about">
+      
+    
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-tags">
+      
+    
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-categories">
+      
+    
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-archives">
+      
+    
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a href="javascript:;" class="popup-trigger">
+        
+          <i class="fa fa-search fa-fw"></i>搜索</a>
+      </li>
+    
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="搜索..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+            
+
+          <div id="content" class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://laxe.top/2019/12/26/【压力测试】使用mysqlslap进行mysql基准测试/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="张磊">
+      <meta itemprop="description" content="直到这一刻微笑着说话为止，我至少留下了一公升眼泪">
+      <meta itemprop="image" content="/images/1.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="厽乂彐">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">【压力测试】使用mysqlslap进行mysql基准测试
+
+          
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              
+                
+              
+
+              <time title="创建时间：2019-12-26 08:22:22 / 修改时间：08:28:54" itemprop="dateCreated datePublished" datetime="2019-12-26T08:22:22+08:00">2019-12-26</time>
+            </span>
+          
+            
+
+            
+          
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+          
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">本文字数：</span>
+              
+              <span>3.7k</span>
+            </span>
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="为什么要进行压力测试？"><a href="#为什么要进行压力测试？" class="headerlink" title="为什么要进行压力测试？"></a>为什么要进行压力测试？</h1><p><strong>PS：在运维工作中，压力测试是一项很重要的工作。比如在一个网站上线之前，能承受多大访问量、在大访问量情况下性能怎样，这些数据指标好坏将会直接影响用户体验。但是，在压力测试中存在一个共性，那就是压力测试的结果与实际负载结果不会完全相同，就算压力测试工作做的再好，也不能保证100%和线上性能指标相同。面对这些问题，我们只能尽量去想方设法去模拟。所以，压力测试非常有必要，有了这些数据，我们就能对自己做维护的平台做到心中有数。</strong></p><a id="more"></a>
+<p>压力测试考察当前软硬件环境下系统所能承受的最大负荷并帮助找出系统瓶颈所在。压测都是为了系统在线上的处理能力和稳定性维持在一个标准范围内，做到心中有数。 </p>
+<h2 id="一、应用场景"><a href="#一、应用场景" class="headerlink" title="一、应用场景"></a>一、应用场景</h2><p>1、对新的或调整后的数据库服务器进行测试，验证或比较配置结果；<br>2、建立Mysql服务器的性能基准线，即得到健康环境下的指标，协助后续实际使用中的监控、优化；<br>3、模拟多用户并发访问MySQL来进行压力测试，找出系统的扩张瓶颈，增加数据库的并发，观察QPS、TPS变化，确定并发量与性能最优的关系；<br>4、对比多个存储引擎（MyISAM，InnoDB等）在相同环境下的相同并发压力下的性能差别。</p>
+<h2 id="二、测试计划"><a href="#二、测试计划" class="headerlink" title="二、测试计划"></a>二、测试计划</h2><p>1、确定测试工具，根据测试目标和业务制定测试计划、测试场景、测试命令；<br>2、使用生产环境的数据库备份，根据测试用例进行测试；<br>3、分析测试结果。</p>
+<h2 id="三、简介mysqlslap"><a href="#三、简介mysqlslap" class="headerlink" title="三、简介mysqlslap"></a>三、简介mysqlslap</h2><p>mysqlslap是版本高于5.1的mysql自带的工具。</p>
+<p>【参数说明】<br>-a<br>//若命令中没通过语句或文件提供SQL表和数据，则将自动创建SQL表和数据</p>
+<p>–auto-generate-sql-add-autoincrement<br>//给自动创建的表添加一个auto_increment列</p>
+<p>–auto-generate-sql-execute-number=N<br>//对每个模拟用户的自动生成N次查询</p>
+<p>–auto-generate-sql-guid-primary<br>//给自动创建的表添加基于GUID的主键</p>
+<p>–auto-generate-sql-load-type=name<br>//指定测试语句类型：mixed（查询与插入对半）,update（更新主键）,write（插入）,key（读主键）或read（查询），默认为mixed</p>
+<p>–auto-generate-sql-secondary-indexes=N<br>//给自动创建的表增加N个二级索引，默认为0</p>
+<p>–auto-generate-sql-unique-query-number=N<br>//指定自动创建的表中不同查询的数量</p>
+<p>–auto-generate-sql-unique-write-number=N<br>//指定自动创建的表中不同插入的数量</p>
+<p>–auto-generate-sql-write-number=N<br>//自动创建的表中，对每个线程插入N行数据（默认N为100）</p>
+<p>–commit=N<br>//每N条DML提交一次（即一次事务）</p>
+<p>-C，–compress<br>//若server和client的协议都支持压缩，则压缩信息后传送</p>
+<p>-c N,–concurrency-name<br>/模拟N个用户并发执行查询</p>
+<p>–create=”字符串或.sql文件路径”<br>//指定用来创建表的字符串或 .sql文件</p>
+<p>–create-schema=”数据库名”<br>指定测试用的数据库（mysql中的database就是schema）</p>
+<p>-#，–debug<br>–debug-check<br>-T,–debug-info //输出CPU以及内存的相关信息<br>【遇到 [Error]mysqlslap：option ‘…’ used,but is disabled，暂时无法解决】</p>
+<p>-F,–delimiter=name<br>此参数指定的值作为sql语句中使用的分隔符</p>
+<p>–detach=N<br>每执行完N条请求，就断开重连一次</p>
+<p>-e,–engine=name<br>指定测试表使用的存储引擎</p>
+<p>-h,–host=name<br>连接指定host</p>
+<p>-i,–iterations=N<br>指定测试迭代次数</p>
+<p>-x,–number-char-cols=N<br>指定自动创建的表中含N个char类型的字段，默认值为1</p>
+<p>-y,–number-int-cols=N<br>指定自动创建的表中含N个int类型的字段，默认值为1</p>
+<p>–number-of-queries=N<br>生成N次总查询（平均每个用户查询次数=总查询次数/并发数）</p>
+<p>–only-print<br>不实际执行，打印模拟执行的过程</p>
+<p>-u,–user=name<br>连接server用的用户名</p>
+<p>-p,–password[=name]<br>连接server用的密码，参数与值之间没有空格，如-p123</p>
+<p>-P，–port=端口号<br>指定连接server的端口</p>
+<p>–post（/pre）-query=name<br>指定测试完成后（/前）执行的含sql语句的字符串或.sql文件</p>
+<p>–post（/pre）-system=name<br>指定测试完成后（/前）执行的系统语句</p>
+<p>–protocol=name<br>指定用来连接的协议：tcp,socket,pipe,memory</p>
+<p>-q “查询语句或包含查询语句的sql文件”,–query=”查询语句或包含查询语句的sql文件”<br>自定义要运行的查询语句</p>
+<p>–defaults-file=”配置文件路径”<br>指定.cnf配置文件</p>
+<p>【注意】<br>不用-a自动生成数据表或自定义指定，就会报1049 error；<br>命令行中，参数–number-of-queries=N（N为总查询次数）和–auto-generate-sql-execute-number=N（N为每个并发的查询次数）只能存在1个。</p>
+<p><strong>常用参数</strong> </p>
+<p>-a  若命令中没通过语句或文件提供SQL表和数据，则将自动创建SQL表和数据</p>
+<h5 id="–concurrency：代表并发数量，多个用逗号隔开，concurrency-10-50-100-并发连接线程数分别是10、50、100个并发"><a href="#–concurrency：代表并发数量，多个用逗号隔开，concurrency-10-50-100-并发连接线程数分别是10、50、100个并发" class="headerlink" title="–concurrency：代表并发数量，多个用逗号隔开，concurrency=10,50,100, 并发连接线程数分别是10、50、100个并发"></a>–concurrency：代表并发数量，多个用逗号隔开，concurrency=10,50,100, 并发连接线程数分别是10、50、100个并发</h5><p>–engines：代表要测试的引擎，可以有多个，用分隔符隔开<br>–iterations：代表要运行这些测试多少次<br>–commit=N：执行N条DML后提交一次<br>–auto-generate-sql：代表用系统自己生成的SQL脚本来测试<br>–auto-generate-sql-load-type：代表要测试的是读还是写还是两者混合的（read,write,update,mixed）</p>
+<h5 id="–number-of-queries：代表总共要运行多少次查询。每个客户运行的查询数量可以用查询总数-并发数来计算"><a href="#–number-of-queries：代表总共要运行多少次查询。每个客户运行的查询数量可以用查询总数-并发数来计算" class="headerlink" title="–number-of-queries：代表总共要运行多少次查询。每个客户运行的查询数量可以用查询总数/并发数来计算"></a>–number-of-queries：代表总共要运行多少次查询。每个客户运行的查询数量可以用查询总数/并发数来计算</h5><p>–debug-info：代表要额外输出CPU以及内存的相关信息<br>–number-int-cols ：创建测试表的 int 型字段数量<br>–auto-generate-sql-add-autoincrement ：代表对生成的表自动添加auto_increment列，从5.1.18版本开始<br>–number-char-cols：创建测试表的 char 型字段数量<br>–create-schema：测试的schema，MySQL中schema也就是database<br>–query：使用自定义脚本执行测试，例如可以调用自定义的一个存储过程或者sql语句来执行测试<br>–only-print：如果只想打印看看SQL语句是什么，可以用这个选项</p>
+<h2 id="四、测试执行：一些栗子"><a href="#四、测试执行：一些栗子" class="headerlink" title="四、测试执行：一些栗子"></a>四、测试执行：一些栗子</h2><p>1）指定数据库‘test’，自定义sql语句，模拟50个并发用户进行测试：</p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysqlslap -uroot -p000000 -c 50  <span class="attribute">--create-schema</span>=wzw -q <span class="string">"select * from wzwapp_user;"</span></span><br></pre></td></tr></table></figure>
+
+<p>2) 自动设置默认查询语句</p>
+<p><code>mysqlslap -uroot -p -a --concurrency=200 --number-of-queries=10000</code> </p>
+<p>当我加大查询量的时候出现下面的错误 mysqlslap: Error when connecting to server: 1040 Too many connections</p>
+<p><strong>参考</strong><a href="https://www.cnblogs.com/phpper/p/9570792.html" target="_blank" rel="noopener">https://www.cnblogs.com/phpper/p/9570792.html</a> </p>
+<p> 解决步骤： 可能是如下两种情况 </p>
+<p>一.查看系统最大限制# ulimit -n 系统的/etc/security/limits.conf 这里面的限制，把限制增大就可以了，前提不能超过系统的最大限制cat /proc/sys/fs/file-max</p>
+<p> 二。mysql&gt; show variables like ‘%connections%’; 临时修改变量（重启mysql后失效，永久的话请修改my.cnf增加max_connections = 100000） mysql&gt; set global max_connections=100000; </p>
+<h1 id="五，mysql优化技巧"><a href="#五，mysql优化技巧" class="headerlink" title="五，mysql优化技巧"></a>五，mysql优化技巧</h1><p>查看mysql存储引擎：show variables like ‘%storage_engine%’; </p>
+<p>​        <a href="https://www.cnblogs.com/sharpest/p/10390035.html" target="_blank" rel="noopener">https://www.cnblogs.com/sharpest/p/10390035.html</a> </p>
+<p>​        <a href="https://blog.csdn.net/skiwnc/article/details/87351038" target="_blank" rel="noopener">https://blog.csdn.net/skiwnc/article/details/87351038</a> </p>
+
+    </div>
+
+    
+    
+    
+        
+      
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>张磊</li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://laxe.top/2019/12/26/【压力测试】使用mysqlslap进行mysql基准测试/" title="【压力测试】使用mysqlslap进行mysql基准测试">http://laxe.top/2019/12/26/【压力测试】使用mysqlslap进行mysql基准测试/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-CN" rel="noopener" target="_blank"><i class="fa fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！</li>
+</ul>
+</div>
+
+      
+          <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------------本文结束<i class="fa fa-paw"></i>感谢您的阅读-------------</div>
+    
+</div>
+        
+      
+      <footer class="post-footer">
+          
+            
+          
+          <div class="post-tags">
+            
+              <a href="/tags/MySQL/" rel="tag"># MySQL</a>
+            
+          </div>
+        
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+              
+                <a href="/2019/12/10/Ansible-PlayBook/" rel="next" title="Ansible-PlayBook">
+                  <i class="fa fa-chevron-left"></i> Ansible-PlayBook
+                </a>
+              
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+              
+                <a href="/2019/12/26/Django 利用zipstream压缩下载多文件夹/" rel="prev" title="Django 利用zipstream压缩下载多文件夹">
+                  Django 利用zipstream压缩下载多文件夹 <i class="fa fa-chevron-right"></i>
+                </a>
+              
+            </div>
+          </div>
+        
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+        
+        
+        
+        
+      
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#为什么要进行压力测试？"><span class="nav-text">为什么要进行压力测试？</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#一、应用场景"><span class="nav-text">一、应用场景</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#二、测试计划"><span class="nav-text">二、测试计划</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#三、简介mysqlslap"><span class="nav-text">三、简介mysqlslap</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#–concurrency：代表并发数量，多个用逗号隔开，concurrency-10-50-100-并发连接线程数分别是10、50、100个并发"><span class="nav-text">–concurrency：代表并发数量，多个用逗号隔开，concurrency=10,50,100, 并发连接线程数分别是10、50、100个并发</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#–number-of-queries：代表总共要运行多少次查询。每个客户运行的查询数量可以用查询总数-并发数来计算"><span class="nav-text">–number-of-queries：代表总共要运行多少次查询。每个客户运行的查询数量可以用查询总数/并发数来计算</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#四、测试执行：一些栗子"><span class="nav-text">四、测试执行：一些栗子</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#五，mysql优化技巧"><span class="nav-text">五，mysql优化技巧</span></a></li></ol></div>
+        
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image"
+      src="/images/1.jpg"
+      alt="张磊">
+  <p class="site-author-name" itemprop="name">张磊</p>
+  <div class="site-description" itemprop="description">直到这一刻微笑着说话为止，我至少留下了一公升眼泪</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">33</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-tags">
+        
+        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-name">标签</span>
+        
+      </div>
+    
+  </nav>
+</div>
+  <div class="feed-link motion-element">
+    <a href="/atom.xml" rel="alternate">
+      <i class="fa fa-rss"></i>RSS
+    </a>
+  </div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="https://github.com/zhanglei244951846" title="GitHub &rarr; https://github.com/zhanglei244951846" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+    
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="mailto:244951846@qq.com" title="E-Mail &rarr; mailto:244951846@qq.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+    
+  </div>
+  <div class="cc-license motion-element" itemprop="license">
+    
+  
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-CN" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2015 – <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">张磊</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+      <span class="post-meta-item-text">站点总字数：</span>
+    
+    <span title="站点总字数">254k</span>
+</div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+  
+    <span class="post-meta-divider">|</span>
+  
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+    
+  
+  <script color='0,0,255' opacity='0.5' zIndex='-1' count='99' src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  <script src="/lib/anime.min.js?v=3.1.0"></script>
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+<script src="/js/utils.js?v=7.4.1"></script><script src="/js/motion.js?v=7.4.1"></script>
+<script src="/js/schemes/pisces.js?v=7.4.1"></script>
+
+<script src="/js/next-boot.js?v=7.4.1"></script>
+
+  <script defer src="/lib/three/three.min.js"></script>
+    
+    <script defer src="/lib/three/canvas_lines.min.js"></script>
+  
+
+
+  
+
+
+
+
+
+
+
+
+  <script src="/js/local-search.js?v=7.4.1"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+<!-- 页面点击小红心 -->
+<script type="text/javascript" src="/js/clicklove.js"></script>
+</html>

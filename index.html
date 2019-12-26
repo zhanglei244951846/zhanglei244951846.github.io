@@ -257,6 +257,848 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://laxe.top/2019/12/26/使用xtrabackup进行备份/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="张磊">
+      <meta itemprop="description" content="直到这一刻微笑着说话为止，我至少留下了一公升眼泪">
+      <meta itemprop="image" content="/images/1.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="厽乂彐">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+            
+            <a href="/2019/12/26/使用xtrabackup进行备份/" class="post-title-link" itemprop="url">xtrabackup备份mysql</a>
+          
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              
+                
+              
+
+              <time title="创建时间：2019-12-26 08:27:30 / 修改时间：08:34:38" itemprop="dateCreated datePublished" datetime="2019-12-26T08:27:30+08:00">2019-12-26</time>
+            </span>
+          
+            
+
+            
+          
+
+          
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">本文字数：</span>
+              
+              <span>15k</span>
+            </span>
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="使用xtrabackup备份mysql"><a href="#使用xtrabackup备份mysql" class="headerlink" title="使用xtrabackup备份mysql"></a>使用xtrabackup备份mysql</h1><h2 id="简介（Percona-XtraBackup-）简称PXB"><a href="#简介（Percona-XtraBackup-）简称PXB" class="headerlink" title="简介（Percona XtraBackup ）简称PXB##"></a>简介（<a href="https://www.percona.com/software/mysql-database/percona-xtrabackup" target="_blank" rel="noopener">Percona XtraBackup</a> ）简称PXB##</h2><blockquote>
+<p>Xtrabackup是由percona开源的免费数据库热备份软件，它能对Innodb数据库和Xtradb存储引擎的数据库非阻塞地备份。（对于Myisam的备份同样需要加表锁），mysqldump备份方式是采用的逻辑备份，其最大的缺陷是备份和恢复速度较慢，如果数据库大于50G，mysqldump备份就不太适合。</p>
+</blockquote>
+          <!--noindex-->
+          
+            <div class="post-button">
+              <a class="btn" href="/2019/12/26/使用xtrabackup进行备份/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+          <div class="post-eof"></div>
+        
+      </footer>
+  </article>
+  
+  
+  
+
+    
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://laxe.top/2019/12/26/负载均衡/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="张磊">
+      <meta itemprop="description" content="直到这一刻微笑着说话为止，我至少留下了一公升眼泪">
+      <meta itemprop="image" content="/images/1.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="厽乂彐">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+            
+            <a href="/2019/12/26/负载均衡/" class="post-title-link" itemprop="url">nginx负载均衡</a>
+          
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              
+                
+              
+
+              <time title="创建时间：2019-12-26 08:27:23 / 修改时间：08:35:22" itemprop="dateCreated datePublished" datetime="2019-12-26T08:27:23+08:00">2019-12-26</time>
+            </span>
+          
+            
+
+            
+          
+
+          
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">本文字数：</span>
+              
+              <span>2.2k</span>
+            </span>
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="修改nginx-conf配置文件"><a href="#修改nginx-conf配置文件" class="headerlink" title="修改nginx.conf配置文件"></a>修改nginx.conf配置文件</h2><figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">user</span>  root;</span><br><span class="line"><span class="attribute">worker_processes</span>  <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line"><span class="attribute">error_log</span>  /var/log/nginx/error.log <span class="literal">warn</span>;</span><br><span class="line"><span class="attribute">pid</span>        /var/run/nginx.pid;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="section">events</span> &#123;</span><br><span class="line">    <span class="attribute">worker_connections</span>  <span class="number">1024</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="section">http</span> &#123;</span><br><span class="line">    <span class="attribute">include</span>       /etc/nginx/mime.types;</span><br><span class="line">    <span class="attribute">default_type</span>  application/octet-stream;</span><br><span class="line"></span><br><span class="line">    <span class="attribute">log_format</span>  main  <span class="string">'<span class="variable">$remote_addr</span> - <span class="variable">$remote_user</span> [<span class="variable">$time_local</span>] "<span class="variable">$request</span>" '</span></span><br><span class="line">                      <span class="string">'<span class="variable">$status</span> <span class="variable">$body_bytes_sent</span> "<span class="variable">$http_referer</span>" '</span></span><br><span class="line">                      <span class="string">'"<span class="variable">$http_user_agent</span>" "<span class="variable">$http_x_forwarded_for</span>"'</span>;</span><br><span class="line"></span><br><span class="line">    <span class="attribute">access_log</span>  /var/log/nginx/access.log  main;</span><br><span class="line"></span><br><span class="line">    <span class="attribute">sendfile</span>        <span class="literal">on</span>;</span><br><span class="line">    <span class="comment">#tcp_nopush     on;</span></span><br><span class="line"></span><br><span class="line">    <span class="attribute">keepalive_timeout</span>  <span class="number">65</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">#gzip  on;</span></span><br><span class="line">    <span class="attribute">upstream</span> mytest &#123;</span><br><span class="line">    <span class="attribute">server</span> <span class="number">114.55.39.15</span>;  <span class="comment">#负载均衡服务器群</span></span><br><span class="line">    <span class="attribute">server</span> <span class="number">47.98.237.5</span>;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">    <span class="attribute">include</span> /etc/nginx/conf.d/<span class="regexp">*.conf</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+          <!--noindex-->
+          
+            <div class="post-button">
+              <a class="btn" href="/2019/12/26/负载均衡/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+          <div class="post-eof"></div>
+        
+      </footer>
+  </article>
+  
+  
+  
+
+    
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://laxe.top/2019/12/26/redis主从复制2/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="张磊">
+      <meta itemprop="description" content="直到这一刻微笑着说话为止，我至少留下了一公升眼泪">
+      <meta itemprop="image" content="/images/1.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="厽乂彐">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+            
+            <a href="/2019/12/26/redis主从复制2/" class="post-title-link" itemprop="url">Redis主从复制</a>
+          
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              
+                
+              
+
+              <time title="创建时间：2019-12-26 08:26:33 / 修改时间：08:33:17" itemprop="dateCreated datePublished" datetime="2019-12-26T08:26:33+08:00">2019-12-26</time>
+            </span>
+          
+            
+
+            
+          
+
+          
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">本文字数：</span>
+              
+              <span>8.8k</span>
+            </span>
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="Reids主从"><a href="#Reids主从" class="headerlink" title="Reids主从"></a>Reids主从</h2><p><strong>参考链接：</strong></p><p><a href="https://www.cnblogs.com/leeSmall/p/8398401.html" target="_blank" rel="noopener">Redis主从复制和哨兵 参考1</a></p><p><a href="https://www.cnblogs.com/chenhuabin/p/10048854.html" target="_blank" rel="noopener">Redis主从复制和哨兵 参考2</a></p><p><a href="https://www.cnblogs.com/lxx666/articles/10693844.html" target="_blank" rel="noopener">Redis主从架构和主从从架构集群搭建详细步骤</a></p><p><a href="https://www.cnblogs.com/wade-luffy/p/9639986.html" target="_blank" rel="noopener">Redis主从复制原理</a></p><p><a href="http://doc.redisfans.com/topic/replication.html" target="_blank" rel="noopener">Redis复制官方文档翻译</a></p><blockquote>
+<p>​    主从复制，是指将一台Redis服务器的数据，复制到其他的Redis服务器。前者称为主节点(master/leader)，后者称为从节点(slave/follower)；数据的复制是单向的，只能由主节点到从节点。</p>
+<p>​    默认情况下，每台Redis服务器都是主节点；且一个主节点可以有多个从节点(或没有从节点)，但一个从节点只能有一个主节点。</p>
+</blockquote>
+          <!--noindex-->
+          
+            <div class="post-button">
+              <a class="btn" href="/2019/12/26/redis主从复制2/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+          <div class="post-eof"></div>
+        
+      </footer>
+  </article>
+  
+  
+  
+
+    
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://laxe.top/2019/12/26/redis持久化/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="张磊">
+      <meta itemprop="description" content="直到这一刻微笑着说话为止，我至少留下了一公升眼泪">
+      <meta itemprop="image" content="/images/1.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="厽乂彐">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+            
+            <a href="/2019/12/26/redis持久化/" class="post-title-link" itemprop="url">Redis持久化</a>
+          
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              
+                
+              
+
+              <time title="创建时间：2019-12-26 08:26:08 / 修改时间：08:34:02" itemprop="dateCreated datePublished" datetime="2019-12-26T08:26:08+08:00">2019-12-26</time>
+            </span>
+          
+            
+
+            
+          
+
+          
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">本文字数：</span>
+              
+              <span>8.4k</span>
+            </span>
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="什么叫持久化？"><a href="#什么叫持久化？" class="headerlink" title="什么叫持久化？"></a>什么叫持久化？</h2><p>用一句话可以将持久化概括为：将数据（如内存中的对象）保存到可永久保存的存储设备中。持久化的主要应用是将内存中的对象存储在数据库中，或者存储在磁盘文件中、 XML 数据文件中等等。</p><blockquote>
+<p>从应用层与系统层理解持久化</p>
+</blockquote>
+          <!--noindex-->
+          
+            <div class="post-button">
+              <a class="btn" href="/2019/12/26/redis持久化/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+          <div class="post-eof"></div>
+        
+      </footer>
+  </article>
+  
+  
+  
+
+    
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://laxe.top/2019/12/26/docker存储/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="张磊">
+      <meta itemprop="description" content="直到这一刻微笑着说话为止，我至少留下了一公升眼泪">
+      <meta itemprop="image" content="/images/1.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="厽乂彐">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+            
+            <a href="/2019/12/26/docker存储/" class="post-title-link" itemprop="url">Docker 存储</a>
+          
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              
+                
+              
+
+              <time title="创建时间：2019-12-26 08:24:45 / 修改时间：08:30:32" itemprop="dateCreated datePublished" datetime="2019-12-26T08:24:45+08:00">2019-12-26</time>
+            </span>
+          
+            
+
+            
+          
+
+          
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">本文字数：</span>
+              
+              <span>19k</span>
+            </span>
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h3 id="Docek"><a href="#Docek" class="headerlink" title="Docek"></a>Docek</h3><h3 id="镜像层的镜像分层结构"><a href="#镜像层的镜像分层结构" class="headerlink" title="镜像层的镜像分层结构"></a>镜像层的镜像分层结构</h3><h5 id="docker的镜像分层结构，如下所示："><a href="#docker的镜像分层结构，如下所示：" class="headerlink" title="docker的镜像分层结构，如下所示："></a>docker的镜像分层结构，如下所示：</h5><p><img src="https://upload-images.jianshu.io/upload_images/13690429-8c66ee3f4b08a970.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1056/format/webp" alt="img"></p><ul>
+<li><p>docker镜像中引入层layer概念，镜像的制作过程中的每一步都会生产一个新的镜像层</p>
+</li>
+<li><p>容器读写层的工作原理</p>
+<blockquote>
+<p>我们刚刚在说镜像的分层特性的时候说到镜像是只读的。而事实上当我们使用镜像启动一个容器的时候，我们其实是可以在容器里随意读写的，从结果上看，似乎与镜像的只读特性相悖。</p>
+<p>我们继续看上面的图，其实可以看到在镜像的最上层，还有一个读写层。而这个读写层，即在容器启动时为当前容器单独挂载。每一个容器在运行时，都会基于当前镜像在其最上层挂载一个读写层。而用户针对容器的所有操作都在读写层中完成。一旦容器销毁，这个读写层也随之销毁。</p>
+<blockquote>
+<p>知识点： 容器=镜像+读写层</p>
+</blockquote>
+<p>而我们针对这个读写层的操作，主要基于两种方式：写时复制和用时分配。</p>
+</blockquote>
+</li>
+</ul>
+          <!--noindex-->
+          
+            <div class="post-button">
+              <a class="btn" href="/2019/12/26/docker存储/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+          <div class="post-eof"></div>
+        
+      </footer>
+  </article>
+  
+  
+  
+
+    
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://laxe.top/2019/12/26/centos7彻底卸载mysql和通过yum安装mysql/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="张磊">
+      <meta itemprop="description" content="直到这一刻微笑着说话为止，我至少留下了一公升眼泪">
+      <meta itemprop="image" content="/images/1.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="厽乂彐">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+            
+            <a href="/2019/12/26/centos7彻底卸载mysql和通过yum安装mysql/" class="post-title-link" itemprop="url">彻底卸载mysql</a>
+          
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              
+                
+              
+
+              <time title="创建时间：2019-12-26 08:24:21 / 修改时间：08:29:20" itemprop="dateCreated datePublished" datetime="2019-12-26T08:24:21+08:00">2019-12-26</time>
+            </span>
+          
+            
+
+            
+          
+
+          
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">本文字数：</span>
+              
+              <span>2k</span>
+            </span>
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <ul>
+<li><p><strong>查看是否有安装的mysql</strong> </p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">rpm -qa | grep -i mysql <span class="comment">// 查看命令1</span></span><br><span class="line">yum <span class="built_in">list</span> install mysql* <span class="comment">// 查看命令2         二选一查看</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>卸载mysql安装包</strong> </p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">yum</span> <span class="selector-tag">remove</span> <span class="selector-tag">mysql</span> <span class="selector-tag">mysql-server</span> <span class="selector-tag">mysql-libs</span> <span class="selector-tag">compat-mysql51</span></span><br><span class="line"><span class="selector-tag">yum</span> <span class="selector-tag">remove</span> <span class="selector-tag">mysql-community-release</span></span><br><span class="line"><span class="selector-tag">rpm</span> <span class="selector-tag">-e</span> <span class="selector-tag">--nodeps</span> <span class="selector-tag">mysql-community-libs-5</span><span class="selector-class">.7</span><span class="selector-class">.22-1</span><span class="selector-class">.el7</span><span class="selector-class">.x86_64</span></span><br><span class="line"><span class="selector-tag">rpm</span> <span class="selector-tag">-e</span> –<span class="selector-tag">nodeps</span> <span class="selector-tag">mysql57-community-release-el7-11</span><span class="selector-class">.noarch</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">总之删到通过上面两种命令查不出来任何有关<span class="selector-tag">mysql</span>的东西。</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>删除残留的mysql目录或文件：</strong> </p>
+<figure class="highlight crystal"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">查询mysql安装目录</span><br><span class="line">whereis mysql  或   find / -name mysql</span><br><span class="line"></span><br><span class="line">删除查询出的目录</span><br><span class="line">rm -rf /usr/lib64/mysql</span><br><span class="line">rm -rf /usr/share/mysql</span><br><span class="line">rm -rf /usr/bin/mysql</span><br><span class="line">rm -rf /etc/logrotate.d/mysql</span><br><span class="line">rm -rf /var/<span class="class"><span class="keyword">lib</span>/<span class="title">mysql</span></span></span><br><span class="line">rm -rf /var/<span class="class"><span class="keyword">lib</span>/<span class="title">mysql</span>/<span class="title">mysql</span></span></span><br><span class="line"></span><br><span class="line">总之删到通过上面两种命令查不出来任何有关mysql的东西。</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>继续删除</p>
+<figure class="highlight jboss-cli"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">删除mysql 配置文件</span><br><span class="line"></span><br><span class="line">rm –rf <span class="string">/usr/my.cnf</span></span><br><span class="line">rm -rf <span class="string">/root/.mysql_sercret</span></span><br><span class="line"></span><br><span class="line">删除mysql开机自启动服务</span><br><span class="line">chkconfig <span class="params">--list</span> | grep -i mysql</span><br><span class="line">chkconfig <span class="params">--del</span> mysqld  <span class="string">//</span> 服务名为你设置时候自己设置的名字</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>至此就卸载干净了 </p>
+</li>
+</ul>
+          <!--noindex-->
+          
+            <div class="post-button">
+              <a class="btn" href="/2019/12/26/centos7彻底卸载mysql和通过yum安装mysql/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+          <div class="post-eof"></div>
+        
+      </footer>
+  </article>
+  
+  
+  
+
+    
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://laxe.top/2019/12/26/Django 利用zipstream压缩下载多文件夹/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="张磊">
+      <meta itemprop="description" content="直到这一刻微笑着说话为止，我至少留下了一公升眼泪">
+      <meta itemprop="image" content="/images/1.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="厽乂彐">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+            
+            <a href="/2019/12/26/Django 利用zipstream压缩下载多文件夹/" class="post-title-link" itemprop="url">Django 利用zipstream压缩下载多文件夹</a>
+          
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              
+                
+              
+
+              <time title="创建时间：2019-12-26 08:24:12 / 修改时间：08:29:48" itemprop="dateCreated datePublished" datetime="2019-12-26T08:24:12+08:00">2019-12-26</time>
+            </span>
+          
+            
+
+            
+          
+
+          
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">本文字数：</span>
+              
+              <span>1.2k</span>
+            </span>
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> zipfile</span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="keyword">import</span> zipstream</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ZipUtilities</span>:</span></span><br><span class="line">    zip_file = <span class="literal">None</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self)</span>:</span></span><br><span class="line">        self.zip_file = zipstream.ZipFile(mode=<span class="string">'w'</span>, compression=zipstream.ZIP_DEFLATED)</span><br><span class="line">        <span class="comment"># 写模式打开二进制压缩文件对象，这个对象是在内存中的而不是在磁盘上的</span></span><br><span class="line">        <span class="comment"># 第一个参数写模式    第二个参数写压缩格式</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">toZip</span><span class="params">(self, file, name)</span>:</span></span><br><span class="line">        <span class="keyword">if</span> os.path.isfile(file):</span><br><span class="line">            <span class="comment"># 判断是否是文件</span></span><br><span class="line">            self.zip_file.write(file, arcname=os.path.basename(file))</span><br><span class="line">            <span class="comment"># 将文件加入加入压缩文件对象里</span></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="comment"># 此处判断到非文件对象 用添加目录方式添加到压缩文件</span></span><br><span class="line">            self.addFolderToZip(file, name)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">addFolderToZip</span><span class="params">(self, folder, name)</span>:</span></span><br><span class="line">        <span class="keyword">for</span> file <span class="keyword">in</span> os.listdir(folder):</span><br><span class="line">            <span class="comment"># 遍历目录下所有文件</span></span><br><span class="line">            full_path = os.path.join(folder, file)</span><br><span class="line">            <span class="comment"># 拼接绝对路径</span></span><br><span class="line">            <span class="keyword">if</span> os.path.isfile(full_path):</span><br><span class="line">                <span class="comment"># 如果从目录下取出来的是文件 </span></span><br><span class="line">                self.zip_file.write(full_path, arcname=os.path.join(name, os.path.basename(full_path)))</span><br><span class="line">                <span class="comment"># 将文件加入加入压缩文件对象里</span></span><br><span class="line">            <span class="keyword">elif</span> os.path.isdir(full_path):</span><br><span class="line">                <span class="comment"># 如果从目录下取出来的是目录递归调用本函数</span></span><br><span class="line">                self.addFolderToZip(full_path, os.path.join(name, os.path.basename(full_path)))</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">close</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">if</span> self.zip_file:</span><br><span class="line">            self.zip_file.close()</span><br></pre></td></tr></table></figure>
+
+
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+          <div class="post-eof"></div>
+        
+      </footer>
+  </article>
+  
+  
+  
+
+    
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://laxe.top/2019/12/26/【压力测试】使用mysqlslap进行mysql基准测试/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="张磊">
+      <meta itemprop="description" content="直到这一刻微笑着说话为止，我至少留下了一公升眼泪">
+      <meta itemprop="image" content="/images/1.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="厽乂彐">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+            
+            <a href="/2019/12/26/【压力测试】使用mysqlslap进行mysql基准测试/" class="post-title-link" itemprop="url">【压力测试】使用mysqlslap进行mysql基准测试</a>
+          
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              
+                
+              
+
+              <time title="创建时间：2019-12-26 08:22:22 / 修改时间：08:28:54" itemprop="dateCreated datePublished" datetime="2019-12-26T08:22:22+08:00">2019-12-26</time>
+            </span>
+          
+            
+
+            
+          
+
+          
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">本文字数：</span>
+              
+              <span>3.7k</span>
+            </span>
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="为什么要进行压力测试？"><a href="#为什么要进行压力测试？" class="headerlink" title="为什么要进行压力测试？"></a>为什么要进行压力测试？</h1><p><strong>PS：在运维工作中，压力测试是一项很重要的工作。比如在一个网站上线之前，能承受多大访问量、在大访问量情况下性能怎样，这些数据指标好坏将会直接影响用户体验。但是，在压力测试中存在一个共性，那就是压力测试的结果与实际负载结果不会完全相同，就算压力测试工作做的再好，也不能保证100%和线上性能指标相同。面对这些问题，我们只能尽量去想方设法去模拟。所以，压力测试非常有必要，有了这些数据，我们就能对自己做维护的平台做到心中有数。</strong></p>
+          <!--noindex-->
+          
+            <div class="post-button">
+              <a class="btn" href="/2019/12/26/【压力测试】使用mysqlslap进行mysql基准测试/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+          <div class="post-eof"></div>
+        
+      </footer>
+  </article>
+  
+  
+  
+
+    
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://laxe.top/2019/12/10/Ansible-PlayBook/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="张磊">
+      <meta itemprop="description" content="直到这一刻微笑着说话为止，我至少留下了一公升眼泪">
+      <meta itemprop="image" content="/images/1.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="厽乂彐">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+            
+            <a href="/2019/12/10/Ansible-PlayBook/" class="post-title-link" itemprop="url">Ansible-PlayBook</a>
+          
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              
+                
+              
+
+              <time title="创建时间：2019-12-10 16:28:11 / 修改时间：16:28:52" itemprop="dateCreated datePublished" datetime="2019-12-10T16:28:11+08:00">2019-12-10</time>
+            </span>
+          
+            
+
+            
+          
+
+          
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">本文字数：</span>
+              
+              <span>4.2k</span>
+            </span>
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="ansible-playbook"><a href="#ansible-playbook" class="headerlink" title="ansible-playbook"></a>ansible-playbook</h2><blockquote>
+<p>在之前的<code>ansible</code>使用中，我们都是通过命令行的形式实现对应远程主机的响应管理</p>
+<p>但这样的工作方式功能上来说还是有一定的局限性，并且维护并不方便，引入<code>playbook</code>可以更加方便我们对于功能的编写维护，并且具有良好的灵活性</p>
+<p><code>playbook</code>也可以理解为命令行功能的一个合集脚本，用来编写更加复杂的业务</p>
+</blockquote>
+          <!--noindex-->
+          
+            <div class="post-button">
+              <a class="btn" href="/2019/12/10/Ansible-PlayBook/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+          <div class="post-eof"></div>
+        
+      </footer>
+  </article>
+  
+  
+  
+
+    
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://laxe.top/2019/11/28/Ansible/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -347,870 +1189,11 @@
   
 
     
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://laxe.top/2019/10/21/Redis常见数据类型及其操作指令/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="张磊">
-      <meta itemprop="description" content="直到这一刻微笑着说话为止，我至少留下了一公升眼泪">
-      <meta itemprop="image" content="/images/1.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="厽乂彐">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-            
-            <a href="/2019/10/21/Redis常见数据类型及其操作指令/" class="post-title-link" itemprop="url">Redis常见数据类型及其操作指令</a>
-          
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              
-                
-              
-
-              <time title="创建时间：2019-10-21 11:37:03 / 修改时间：11:37:56" itemprop="dateCreated datePublished" datetime="2019-10-21T11:37:03+08:00">2019-10-21</time>
-            </span>
-          
-            
-
-            
-          
-
-          
-          <br>
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-file-word-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">本文字数：</span>
-              
-              <span>8k</span>
-            </span>
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="Redis"><a href="#Redis" class="headerlink" title="Redis"></a>Redis</h2><blockquote>
-<p><code>Redis</code>可以存储<strong>键</strong>体与五种不同数据结构类型类型之间的映射</p>
-<p>分别为<code>STRING</code>字符串、<code>LIST</code>列表、<code>SET</code>集合、<code>HASH</code>散列和<code>ZSET</code>有序集合</p>
-</blockquote><ul>
-<li><code>Redis</code>客户端</li>
-</ul><figure class="highlight avrasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">redis-<span class="keyword">cli</span></span><br></pre></td></tr></table></figure><ul>
-<li>如需支持中文展示，可以使用参数</li>
-</ul>
-          <!--noindex-->
-          
-            <div class="post-button">
-              <a class="btn" href="/2019/10/21/Redis常见数据类型及其操作指令/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-          <div class="post-eof"></div>
-        
-      </footer>
-  </article>
-  
-  
-  
-
-    
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://laxe.top/2019/10/21/Redis的数据淘汰策略/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="张磊">
-      <meta itemprop="description" content="直到这一刻微笑着说话为止，我至少留下了一公升眼泪">
-      <meta itemprop="image" content="/images/1.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="厽乂彐">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-            
-            <a href="/2019/10/21/Redis的数据淘汰策略/" class="post-title-link" itemprop="url">Redis的数据淘汰策略</a>
-          
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              
-                
-              
-
-              <time title="创建时间：2019-10-21 11:36:00 / 修改时间：11:36:35" itemprop="dateCreated datePublished" datetime="2019-10-21T11:36:00+08:00">2019-10-21</time>
-            </span>
-          
-            
-
-            
-          
-
-          
-          <br>
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-file-word-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">本文字数：</span>
-              
-              <span>2k</span>
-            </span>
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="Redis数据过期策略"><a href="#Redis数据过期策略" class="headerlink" title="Redis数据过期策略"></a>Redis数据过期策略</h2><blockquote>
-<p>当<code>redis</code>内存不足时，此时就要有响应的策略来保证将一些无用或冷数据从内存中剔除出去；</p>
-</blockquote><h3 id="定时删除"><a href="#定时删除" class="headerlink" title="定时删除"></a>定时删除</h3><ul>
-<li>策略 : 在设置键的过期时间的同时，创建一个定时器，让定时器在键的过期时间来临时，立即执行对键的删除操作</li>
-<li>优点 : 对内存友好，保证过期键会尽可能快地被删除，并释放过期键所占用的内存</li>
-<li>缺点 : 对<code>CPU</code>时间不友好，占用太多<code>CPU</code>时间，影响服务器的响应时间和吞吐量</li>
-</ul>
-          <!--noindex-->
-          
-            <div class="post-button">
-              <a class="btn" href="/2019/10/21/Redis的数据淘汰策略/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-          <div class="post-eof"></div>
-        
-      </footer>
-  </article>
-  
-  
-  
-
-    
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://laxe.top/2019/10/21/Redis的键空间、键事件通知系统/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="张磊">
-      <meta itemprop="description" content="直到这一刻微笑着说话为止，我至少留下了一公升眼泪">
-      <meta itemprop="image" content="/images/1.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="厽乂彐">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-            
-            <a href="/2019/10/21/Redis的键空间、键事件通知系统/" class="post-title-link" itemprop="url">Redis的键空间、键事件通知系统</a>
-          
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              
-                
-              
-
-              <time title="创建时间：2019-10-21 11:34:37 / 修改时间：11:35:27" itemprop="dateCreated datePublished" datetime="2019-10-21T11:34:37+08:00">2019-10-21</time>
-            </span>
-          
-            
-
-            
-          
-
-          
-          <br>
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-file-word-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">本文字数：</span>
-              
-              <span>1.5k</span>
-            </span>
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="键空间事件通知"><a href="#键空间事件通知" class="headerlink" title="键空间事件通知"></a>键空间事件通知</h2><ul>
-<li>在<code>Redis</code>里面有一些事件，比如键<strong>到期</strong>、键被<strong>删除</strong>等。可以通过打开<code>redis</code>键空间事件通知来让 Redis 一旦触发这些事件的时候就往特定的<code>Channel</code>推一条消息</li>
-</ul><h3 id="键事件通知配置"><a href="#键事件通知配置" class="headerlink" title="键事件通知配置"></a>键事件通知配置</h3><ul>
-<li>默认在<code>redis</code>中，键事件通知是不打开的，需要我们手动配置，具体的选项如下，默认他是个空字符串，代表关闭状态</li>
-</ul>
-          <!--noindex-->
-          
-            <div class="post-button">
-              <a class="btn" href="/2019/10/21/Redis的键空间、键事件通知系统/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-          <div class="post-eof"></div>
-        
-      </footer>
-  </article>
-  
-  
-  
-
-    
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://laxe.top/2019/10/21/Redis进行持久化的两种办法/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="张磊">
-      <meta itemprop="description" content="直到这一刻微笑着说话为止，我至少留下了一公升眼泪">
-      <meta itemprop="image" content="/images/1.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="厽乂彐">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-            
-            <a href="/2019/10/21/Redis进行持久化的两种办法/" class="post-title-link" itemprop="url">Redis进行持久化的两种办法</a>
-          
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              
-                
-              
-
-              <time title="创建时间：2019-10-21 11:33:08 / 修改时间：11:38:47" itemprop="dateCreated datePublished" datetime="2019-10-21T11:33:08+08:00">2019-10-21</time>
-            </span>
-          
-            
-
-            
-          
-
-          
-          <br>
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-file-word-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">本文字数：</span>
-              
-              <span>2.5k</span>
-            </span>
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <blockquote>
-<p>redis提供了两种办法，进行数据持久化，保证数据安全可靠，也就是人们众所周知的RDB和AOF机制</p>
-</blockquote><h2 id="快照（snapshotting）"><a href="#快照（snapshotting）" class="headerlink" title="快照（snapshotting）"></a>快照（snapshotting）</h2><ul>
-<li>客户端发送<code>BGSAVE</code>命令来创建一个快照，当调用<code>BGSAVE</code>命令之后，<code>Redis</code>会调用<code>fork</code>来创建一个子进程，该子进程负责将快照写入硬盘，而父进程则继续处理命令请求</li>
-<li>客户端发送<code>SAVE</code>来创建一个快照，接到<code>SAVE</code>命令的<code>redis</code>服务器会在快照创建完毕之前不响应任何其他命令，<code>save</code>命令并不常用，我们通常只会在没有足够内存去执行<code>BGSAVE</code>的情况下，或者无视等待持久化操作所造成的时间浪费问题，也可以使用该命令</li>
-<li>当<code>redis</code>配置了<code>save</code>选项，比如<code>save 60 10000</code>，那么<code>redis</code>最近一次创建快照开始算起，当60秒内有10000次写入这个条件被满足时，<code>redis</code>就会自动触发<code>BGSAVE</code>命令，当用户配置了多个<code>save</code>选项，当任意一个<code>save</code>条件被满足时，<code>redis</code>就会触发一次<code>bgsave</code> 命令</li>
-<li>当<code>redis</code>接收到了<code>shutdown</code>命令以及标准的<code>term</code>信号时，会自动执行<code>save</code>命令，阻塞所有的客户端，不再执行客户端发送的任何命令，并在<code>save</code>命令执行完毕之后关闭服务器</li>
-<li>当<code>redis</code>实现主从同步时，从服务器向主服务器发送<code>sync</code>命令时，此时，如果主服务器目前没有在执行<code>bgsave</code>命令，或并非刚刚执行完<code>bgsave</code>命令，那么此时主服务器就会执行<code>bgsave</code>进行数据持久化备份，</li>
-</ul>
-          <!--noindex-->
-          
-            <div class="post-button">
-              <a class="btn" href="/2019/10/21/Redis进行持久化的两种办法/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-          <div class="post-eof"></div>
-        
-      </footer>
-  </article>
-  
-  
-  
-
-    
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://laxe.top/2019/10/21/Redis中的发布者与订阅者/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="张磊">
-      <meta itemprop="description" content="直到这一刻微笑着说话为止，我至少留下了一公升眼泪">
-      <meta itemprop="image" content="/images/1.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="厽乂彐">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-            
-            <a href="/2019/10/21/Redis中的发布者与订阅者/" class="post-title-link" itemprop="url">Redis中的发布者与订阅者</a>
-          
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              
-                
-              
-
-              <time title="创建时间：2019-10-21 11:30:56 / 修改时间：11:32:36" itemprop="dateCreated datePublished" datetime="2019-10-21T11:30:56+08:00">2019-10-21</time>
-            </span>
-          
-            
-
-            
-          
-
-          
-          <br>
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-file-word-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">本文字数：</span>
-              
-              <span>1.6k</span>
-            </span>
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="发布与订阅"><a href="#发布与订阅" class="headerlink" title="发布与订阅"></a>发布与订阅</h2><blockquote>
-<p>发布和订阅<code>pub/sub</code>，订阅者负责订阅频道，发送者负责像频道发送二进制字符串消息，每当有消息发布到订阅的这个频道，那么所有的订阅者都可以收到这个消息，</p>
-<p>发布订阅也是像是我们生活中的电台，订阅者可以订阅收听多个电台，而发送者可以再任何电台发送消息</p>
-</blockquote>
-          <!--noindex-->
-          
-            <div class="post-button">
-              <a class="btn" href="/2019/10/21/Redis中的发布者与订阅者/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-          <div class="post-eof"></div>
-        
-      </footer>
-  </article>
-  
-  
-  
-
-    
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://laxe.top/2019/10/21/Redis实现分布式锁以及利用乐观锁保证数据安全/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="张磊">
-      <meta itemprop="description" content="直到这一刻微笑着说话为止，我至少留下了一公升眼泪">
-      <meta itemprop="image" content="/images/1.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="厽乂彐">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-            
-            <a href="/2019/10/21/Redis实现分布式锁以及利用乐观锁保证数据安全/" class="post-title-link" itemprop="url">Redis实现分布式锁以及利用乐观锁保证数据安全</a>
-          
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              
-                
-              
-
-              <time title="创建时间：2019-10-21 11:25:16 / 修改时间：11:30:01" itemprop="dateCreated datePublished" datetime="2019-10-21T11:25:16+08:00">2019-10-21</time>
-            </span>
-          
-            
-
-            
-          
-
-          
-          <br>
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-file-word-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">本文字数：</span>
-              
-              <span>5.7k</span>
-            </span>
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="分布式锁"><a href="#分布式锁" class="headerlink" title="分布式锁"></a>分布式锁</h2><blockquote>
-<p>一般来说，对数据进行<strong>加锁</strong>时，程序首先需要通过获取<code>acquire</code>锁来得到对数据操作、排他的权力</p>
-<p>在操作完毕之后，还需要通过<code>release</code>进行锁的释放，以供其他程序使用</p>
-</blockquote><ul>
-<li><code>Redis</code>使用<code>WATCH</code>命令用以代替对数据进行加锁，<code>WATCH</code>只会在数据被其他客户端抢先修改了的情况下通知执行命令的这个客户端（通过<code>WatchError</code>异常），但不会阻止其他客户端对数据的修改，这样的加锁的行为也常称为<strong>乐观锁</strong></li>
-</ul>
-          <!--noindex-->
-          
-            <div class="post-button">
-              <a class="btn" href="/2019/10/21/Redis实现分布式锁以及利用乐观锁保证数据安全/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-          <div class="post-eof"></div>
-        
-      </footer>
-  </article>
-  
-  
-  
-
-    
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://laxe.top/2019/10/21/Vue/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="张磊">
-      <meta itemprop="description" content="直到这一刻微笑着说话为止，我至少留下了一公升眼泪">
-      <meta itemprop="image" content="/images/1.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="厽乂彐">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-            
-            <a href="/2019/10/21/Vue/" class="post-title-link" itemprop="url">Vue</a>
-          
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              
-                
-              
-
-              <time title="创建时间：2019-10-21 10:57:05 / 修改时间：10:58:19" itemprop="dateCreated datePublished" datetime="2019-10-21T10:57:05+08:00">2019-10-21</time>
-            </span>
-          
-            
-
-            
-          
-
-          
-          <br>
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-file-word-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">本文字数：</span>
-              
-              <span>30k</span>
-            </span>
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="VUE"><a href="#VUE" class="headerlink" title="VUE"></a>VUE</h2><blockquote>
-<p><code>Vue.js</code>是前端三大新框架：<code>Angular.js</code>、<code>React.js</code>、<code>Vue.js</code>之一，<code>Vue.js</code>目前的使用和关注程度在三大框架中稍微胜出，并且它的热度还在递增</p>
-<p><code>Vue</code>的核心库只关注视图层，<code>Vue</code>的目标是通过尽可能简单的<code>API</code>实现响应的数据绑定，在这一点上<code>Vue.js</code>类似于后台的模板语言</p>
-<p><code>Vue</code>也可以将界面拆分成一个个的组件，通过组件来构建界面，然后用自动化工具来生成单页面(<code>SPA - single page application</code>)系统</p>
-</blockquote>
-          <!--noindex-->
-          
-            <div class="post-button">
-              <a class="btn" href="/2019/10/21/Vue/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-          <div class="post-eof"></div>
-        
-      </footer>
-  </article>
-  
-  
-  
-
-    
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://laxe.top/2019/10/21/JavaScript/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="张磊">
-      <meta itemprop="description" content="直到这一刻微笑着说话为止，我至少留下了一公升眼泪">
-      <meta itemprop="image" content="/images/1.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="厽乂彐">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-            
-            <a href="/2019/10/21/JavaScript/" class="post-title-link" itemprop="url">JavaScript</a>
-          
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              
-                
-              
-
-              <time title="创建时间：2019-10-21 10:51:45 / 修改时间：10:52:45" itemprop="dateCreated datePublished" datetime="2019-10-21T10:51:45+08:00">2019-10-21</time>
-            </span>
-          
-            
-
-            
-          
-
-          
-          <br>
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-file-word-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">本文字数：</span>
-              
-              <span>12k</span>
-            </span>
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="JavaScript"><a href="#JavaScript" class="headerlink" title="JavaScript"></a>JavaScript</h2><blockquote>
-<p><code>JavaScript</code>是运行在浏览器端的脚本语言，<code>JavaScript</code>主要解决的是前端与用户交互的问题</p>
-<p>是一种动态性、弱类型的语言；</p>
-<p>他的解释器就在我们的浏览器中，是浏览器的一部分</p>
-<p>这门语言对<strong>大小写敏感</strong>，并会忽略多余的空格，可以使用<code>\</code>进行代码换行，注释使用<code>//</code>或<code>/**/</code></p>
-</blockquote>
-          <!--noindex-->
-          
-            <div class="post-button">
-              <a class="btn" href="/2019/10/21/JavaScript/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-          <div class="post-eof"></div>
-        
-      </footer>
-  </article>
-  
-  
-  
-
-    
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://laxe.top/2019/10/21/Css/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="张磊">
-      <meta itemprop="description" content="直到这一刻微笑着说话为止，我至少留下了一公升眼泪">
-      <meta itemprop="image" content="/images/1.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="厽乂彐">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-            
-            <a href="/2019/10/21/Css/" class="post-title-link" itemprop="url">Css</a>
-          
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              
-                
-              
-
-              <time title="创建时间：2019-10-21 10:49:45 / 修改时间：10:51:18" itemprop="dateCreated datePublished" datetime="2019-10-21T10:49:45+08:00">2019-10-21</time>
-            </span>
-          
-            
-
-            
-          
-
-          
-          <br>
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-file-word-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">本文字数：</span>
-              
-              <span>11k</span>
-            </span>
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="CSS"><a href="#CSS" class="headerlink" title="CSS"></a>CSS</h2><blockquote>
-<p><code>CSS</code>值层叠样式表（<code>Cascading Style Sheets</code>），主要为了让我们的HTML页面具有花里胡哨的样式效果</p>
-<p>样式定义如何显示<code>HTML</code>元素</p>
-<p>样式通常存储在样式表中</p>
-<p>外部样式表可以极大的提高工作效率</p>
-<p>外部样式表通常存储后缀为<code>CSS</code>的文件中</p>
-<p>多个样式定义可层叠为一</p>
-</blockquote>
-          <!--noindex-->
-          
-            <div class="post-button">
-              <a class="btn" href="/2019/10/21/Css/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-          <div class="post-eof"></div>
-        
-      </footer>
-  </article>
-  
-  
-  
-
-    
   </div>
 
   
   <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
 
 
@@ -1258,7 +1241,7 @@
         
           <a href="/archives/">
         
-          <span class="site-state-item-count">24</span>
+          <span class="site-state-item-count">33</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -1267,7 +1250,7 @@
       
       <div class="site-state-item site-state-tags">
         
-        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-count">6</span>
         <span class="site-state-item-name">标签</span>
         
       </div>
@@ -1334,7 +1317,7 @@
     </span>
       <span class="post-meta-item-text">站点总字数：</span>
     
-    <span title="站点总字数">189k</span>
+    <span title="站点总字数">254k</span>
 </div>
 
         
